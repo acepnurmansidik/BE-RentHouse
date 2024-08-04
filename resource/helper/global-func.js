@@ -18,6 +18,15 @@ const transporter = nodemailer.createTransport({
 
 const globalFunc = {};
 
+/**
+ * -----------------------------------------------
+ * | EMAIL
+ * -----------------------------------------------
+ * | if you wanna send email to yours friends
+ * | or another people this function can do it
+ * | don't worry this very secret, just you and me
+ * |
+ */
 globalFunc.sendEmail = async ({ template, payload, receive, subject }) => {
   // Get template email from html file
   const tempFile = fs.readFileSync(
@@ -37,6 +46,15 @@ globalFunc.sendEmail = async ({ template, payload, receive, subject }) => {
   return await transporter.sendMail(message);
 };
 
+/**
+ * -----------------------------------------------
+ * | HASH PASSWORD
+ * -----------------------------------------------
+ * | Sometimes you must like anonymous, i mean
+ * | your privacy keep safe, don't let people know
+ * | so this function can be guard your privacy
+ * |
+ */
 globalFunc.hashPassword = async ({ password }) => {
   return await bcrypt.hash(password, 12);
 };
@@ -45,6 +63,15 @@ globalFunc.verifyPassword = async ({ password, hashPassword }) => {
   return await bcrypt.compare(password, hashPassword);
 };
 
+/**
+ * -----------------------------------------------
+ * | JSON WEB TOKEN
+ * -----------------------------------------------
+ * | if you wanna privacy data exchange
+ * | this function can be help you
+ * | and your privay keep safe using JWT
+ * |
+ */
 globalFunc.generateJwtToken = async (payload, next) => {
   delete payload.password;
   const jwtSignOptions = {
@@ -81,6 +108,60 @@ const verifyJwtToken = async (token, next) => {
   } catch (err) {
     next(err);
   }
+};
+
+/**
+ * -----------------------------------------------
+ * | DYNAMIC QUERY SEARCH
+ * -----------------------------------------------
+ * | Hey it sounds good and powerfull for
+ * | this function, you don't need to bother
+ * | writing long search queries
+ * |
+ */
+globalFunc.QuerySearch = async (payload) => {
+  const result = {};
+  for (const everyData of payload) {
+    Object.keys(everyData["values"]).map((item) => {
+      result[item] = {
+        [Op[everyData["opr"]]]: `%${everyData["values"][item]}%`,
+      };
+      if ([compaOpr.ILIKE, compaOpr.NOT_ILIKE].includes(everyData["opr"])) {
+        result[item] = {
+          [Op[everyData["opr"]]]: `%${everyData["values"][item]}%`,
+        };
+      } else if (
+        [
+          compaOpr.IN,
+          compaOpr.NOT_IN,
+          compaOpr.BETWEEN,
+          compaOpr.NOT_BETWEEN,
+        ].includes(everyData["opr"])
+      ) {
+        let temp = [
+          ...everyData["values"][item],
+          `${everyData["values"][item]}`,
+        ];
+        result[item] = {
+          [Op[everyData["opr"]]]: temp,
+        };
+      } else if ([compaOpr.AND, compaOpr.OR].includes(everyData["opr"])) {
+        let temp = [
+          ...everyData["values"][item],
+          { item: `${everyData["values"][item]}` },
+        ];
+        result[item] = {
+          [Op[everyData["opr"]]]: temp,
+        };
+      } else {
+        result[item] = {
+          [Op[everyData["opr"]]]: `${everyData["values"][item]}`,
+        };
+      }
+    });
+  }
+
+  return result;
 };
 
 module.exports = { globalFunc, verifyJwtToken };
