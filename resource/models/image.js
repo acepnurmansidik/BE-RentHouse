@@ -12,9 +12,15 @@ const ImageModelDefine = {
     allowNull: false,
     defaultValue: "",
   },
+  status: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
+  },
   source_id: {
     type: DataTypes.UUID,
-    allowNull: false,
+    allowNull: true,
+    defaultValue: null,
   },
 };
 
