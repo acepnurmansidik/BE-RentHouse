@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 const DBConn = require("../../db");
 
-const RolesModelDefine = {
+const ImageModelDefine = {
   id: {
     type: DataTypes.UUIDV4,
     defaultValue: DataTypes.UUIDV4,
@@ -10,18 +10,15 @@ const RolesModelDefine = {
   name: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: false,
     defaultValue: "",
   },
-  slug: {
-    type: DataTypes.STRING,
+  source_id: {
+    type: DataTypes.UUID,
     allowNull: false,
-    unique: true,
-    defaultValue: "",
   },
 };
 
-const RolesModel = DBConn.define("role", RolesModelDefine, {
+const ImageModel = DBConn.define("image", ImageModelDefine, {
   timestamps: true,
   force: false,
   createdAt: true,
@@ -29,10 +26,10 @@ const RolesModel = DBConn.define("role", RolesModelDefine, {
   paranoid: true,
 });
 
-Object.keys(RolesModelDefine).map((item) => {
-  RolesModelDefine[item] = RolesModelDefine[item]["defaultValue"]
-    ? RolesModelDefine[item]["defaultValue"]
+Object.keys(ImageModelDefine).map((item) => {
+  ImageModelDefine[item] = ImageModelDefine[item]["defaultValue"]
+    ? ImageModelDefine[item]["defaultValue"]
     : null;
 });
 
-module.exports = { RolesModelDefine, RolesModel };
+module.exports = { ImageModelDefine, ImageModel };

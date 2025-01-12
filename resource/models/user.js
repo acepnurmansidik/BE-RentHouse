@@ -3,6 +3,11 @@ const DBConn = require("../../db");
 const { RolesModel } = require("./roles");
 
 const UserModelDefine = {
+  id: {
+    type: DataTypes.UUIDV4,
+    defaultValue: DataTypes.UUIDV4,
+    primaryKey: true,
+  },
   username: {
     type: DataTypes.STRING,
     allowNull: false,

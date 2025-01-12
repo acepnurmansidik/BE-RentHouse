@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 const DBConn = require("../../db");
 
-const RolesModelDefine = {
+const CityModelDefine = {
   id: {
     type: DataTypes.UUIDV4,
     defaultValue: DataTypes.UUIDV4,
@@ -21,7 +21,7 @@ const RolesModelDefine = {
   },
 };
 
-const RolesModel = DBConn.define("role", RolesModelDefine, {
+const CityModel = DBConn.define("city", CityModelDefine, {
   timestamps: true,
   force: false,
   createdAt: true,
@@ -29,10 +29,10 @@ const RolesModel = DBConn.define("role", RolesModelDefine, {
   paranoid: true,
 });
 
-Object.keys(RolesModelDefine).map((item) => {
-  RolesModelDefine[item] = RolesModelDefine[item]["defaultValue"]
-    ? RolesModelDefine[item]["defaultValue"]
+Object.keys(CityModelDefine).map((item) => {
+  CityModelDefine[item] = CityModelDefine[item]["defaultValue"]
+    ? CityModelDefine[item]["defaultValue"]
     : null;
 });
 
-module.exports = { RolesModelDefine, RolesModel };
+module.exports = { CityModelDefine, CityModel };
