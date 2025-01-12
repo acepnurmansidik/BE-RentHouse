@@ -76,7 +76,6 @@ globalFunc.generateJwtToken = async (payload, next) => {
   delete payload.password;
   const jwtSignOptions = {
     algorithm: ENV.algorithmToken,
-    expiresIn: ENV.jwtExpired,
     jwtid: ENV.jwtID,
   };
   // create token
