@@ -12,6 +12,11 @@ const RolesModelDefine = {
     allowNull: false,
     unique: false,
     defaultValue: "",
+    validate: {
+      notEmpty: {
+        msg: "Name can't be empty!",
+      },
+    },
   },
   slug: {
     type: DataTypes.STRING,

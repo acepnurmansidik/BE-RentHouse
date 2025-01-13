@@ -14,11 +14,10 @@ const BenefitModelDefine = {
     allowNull: false,
     defaultValue: "",
   },
-  slug: {
-    type: DataTypes.STRING,
+  status: {
+    type: DataTypes.BOOLEAN,
     allowNull: false,
-    unique: true,
-    defaultValue: "",
+    defaultValue: true,
   },
   description: {
     type: DataTypes.TEXT,

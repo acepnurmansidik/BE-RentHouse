@@ -12,6 +12,11 @@ const ImageModelDefine = {
     type: DataTypes.STRING,
     allowNull: false,
     defaultValue: "",
+    validate: {
+      notEmpty: {
+        msg: "Name can't be empty!",
+      },
+    },
   },
   status: {
     type: DataTypes.BOOLEAN,

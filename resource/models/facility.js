@@ -16,11 +16,10 @@ const FacilityModelDefine = {
     allowNull: false,
     defaultValue: "",
   },
-  slug: {
-    type: DataTypes.STRING,
+  status: {
+    type: DataTypes.BOOLEAN,
     allowNull: false,
-    unique: true,
-    defaultValue: "",
+    defaultValue: true,
   },
   room_id: {
     type: DataTypes.UUID,
@@ -48,6 +47,7 @@ FacilityModel.belongsTo(ResidenceRoomModel, { foreignKey: "room_id" });
 ResidenceRoomModel.hasMany(FacilityModel, { foreignKey: "room_id" });
 
 delete FacilityModelDefine.id;
+delete FacilityModelDefine.slug;
 Object.keys(FacilityModelDefine).map((item) => {
   FacilityModelDefine[item] = FacilityModelDefine[item]["defaultValue"]
     ? FacilityModelDefine[item]["defaultValue"]

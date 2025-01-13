@@ -12,6 +12,15 @@ const CityModelDefine = {
     allowNull: false,
     unique: false,
     defaultValue: "",
+    validate: {
+      notEmpty: {
+        msg: "Name can't be empty!",
+      },
+      // len: {
+      //   args: [1, 255],
+      //   msg: "Nama kota harus antara 1 dan 255 karakter.", // Pesan error kustom
+      // },
+    },
   },
   slug: {
     type: DataTypes.STRING,

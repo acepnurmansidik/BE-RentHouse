@@ -102,7 +102,9 @@ controller.updateRole = async (req, res, next) => {
 
     if (!isExist) throw new NotFoundError(`Data with id '${id}' not found!`);
     if (isDuplicate)
-      throw new BadRequestError(`Data with name '${payload.name}' is exist!`);
+      throw new BadRequestError(
+        `Data with name '${payload.name}' is already exist!`,
+      );
 
     // update data in database
     await RolesModel.update(payload, { where: { id } });

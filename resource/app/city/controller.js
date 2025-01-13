@@ -108,7 +108,9 @@ controller.updateCity = async (req, res, next) => {
     if (!isAvailable) throw new NotFoundError(`Data with id '${id}' not found`);
     // send not found error if duplicate data
     if (isDuplicate)
-      throw new BadRequestError(`Data with name '${payload.name}' is exist`);
+      throw new BadRequestError(
+        `Data with name '${payload.name}' is already exist`,
+      );
 
     // update to database
     await CityModel.update(payload, { where: { id } });

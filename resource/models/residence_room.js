@@ -21,7 +21,7 @@ const ResidenceRoomModelDefine = {
   is_available: {
     type: DataTypes.BOOLEAN,
     allowNull: false,
-    defaultValue: false,
+    defaultValue: true,
   },
   total_room: {
     type: DataTypes.STRING,
@@ -62,6 +62,7 @@ BoardingResidenceModel.hasMany(ResidenceRoomModel, {
 });
 
 delete ResidenceRoomModelDefine.id;
+delete ResidenceRoomModelDefine.residence_id;
 Object.keys(ResidenceRoomModelDefine).map((item) => {
   ResidenceRoomModelDefine[item] = ResidenceRoomModelDefine[item][
     "defaultValue"

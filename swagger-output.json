@@ -333,6 +333,68 @@
           }
         ]
       }
+    },
+    "/boarding-residence/": {
+      "get": {
+        "tags": [
+          "MASTER BOARDING RESIDENCE"
+        ],
+        "summary": "role user",
+        "description": "every user has role for access",
+        "parameters": [
+          {
+            "name": "page",
+            "default": "1",
+            "description": "Search by type",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "default": "10",
+            "description": "Search by type",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "MASTER BOARDING RESIDENCE"
+        ],
+        "summary": "role user",
+        "description": "every user has role for access",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "Create role",
+            "schema": {
+              "$ref": "#/definitions/BodyBoardingResidenceSchema"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
     }
   },
   "definitions": {
@@ -371,40 +433,53 @@
       "type": "object",
       "properties": {
         "name": {},
-        "slug": {},
         "description": {},
-        "thumbnail": {},
         "address": {},
         "category": {},
         "city_id": {},
         "owner_id": {},
-        "facility": {
+        "rooms": {
           "type": "array",
           "items": {
             "type": "object",
             "properties": {
-              "name": {},
-              "slug": {},
-              "room_id": {}
+              "room_type": {},
+              "price_per_month": {},
+              "is_available": {
+                "type": "boolean",
+                "example": true
+              },
+              "total_room": {},
+              "facility": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "example": "bathub"
+                    }
+                  }
+                }
+              },
+              "benefit": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "example": "free refund"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "bisa refund kapan saja tanpa biaya admin"
+                    }
+                  }
+                }
+              }
             }
           }
-        },
-        "benefit": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "name": {},
-              "slug": {},
-              "description": {},
-              "room_id": {}
-            }
-          }
-        },
-        "images": {
-          "type": "array",
-          "example": [],
-          "items": {}
         }
       }
     },
