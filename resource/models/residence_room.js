@@ -50,6 +50,13 @@ const ResidenceRoomModel = DBConn.define(
   },
 );
 
+ResidenceRoomModel.belongsTo(BoardingResidenceModel, {
+  foreignKey: "residence_id",
+});
+BoardingResidenceModel.hasMany(ResidenceRoomModel, {
+  foreignKey: "residence_id",
+});
+
 Object.keys(ResidenceRoomModelDefine).map((item) => {
   ResidenceRoomModelDefine[item] = ResidenceRoomModelDefine[item][
     "defaultValue"

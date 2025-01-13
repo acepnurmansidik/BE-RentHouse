@@ -88,6 +88,19 @@ const TransactionModel = DBConn.define("transaction", TransactionModelDefine, {
   paranoid: true,
 });
 
+TransactionModel.belongsTo(UserModel, { foreignKey: "user_id" });
+UserModel.hasMany(TransactionModel, { foreignKey: "user_id" });
+
+TransactionModel.belongsTo(ResidenceRoomModel, { foreignKey: "room_id" });
+ResidenceRoomModel.hasMany(TransactionModel, { foreignKey: "room_id" });
+
+TransactionModel.belongsTo(BoardingResidenceModel, {
+  foreignKey: "residence_id",
+});
+BoardingResidenceModel.hasMany(TransactionModel, {
+  foreignKey: "residence_id",
+});
+
 Object.keys(TransactionModelDefine).map((item) => {
   TransactionModelDefine[item] = TransactionModelDefine[item]["defaultValue"]
     ? TransactionModelDefine[item]["defaultValue"]

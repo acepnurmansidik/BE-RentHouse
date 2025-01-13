@@ -68,6 +68,14 @@ const BoardingResidenceModel = DBConn.define(
   },
 );
 
+// boarding to city
+BoardingResidenceModel.belongsTo(CityModel, { foreignKey: "city_id" });
+CityModel.hasOne(BoardingResidenceModel, { foreignKey: "city_id" });
+
+// boarding to owner
+BoardingResidenceModel.belongsTo(UserModel, { foreignKey: "owner_id" });
+UserModel.hasOne(BoardingResidenceModel, { foreignKey: "owner_id" });
+
 Object.keys(BoardingResidenceModelDefine).map((item) => {
   BoardingResidenceModelDefine[item] = BoardingResidenceModelDefine[item][
     "defaultValue"

@@ -1,6 +1,7 @@
 const { DataTypes } = require("sequelize");
 const DBConn = require("../../db");
 const { ResidenceRoomModel } = require("./residence_room");
+const { BoardingResidenceModel } = require("./boarding_residence");
 
 const BenefitModelDefine = {
   id: {
@@ -42,6 +43,10 @@ const BenefitModel = DBConn.define("benefit", BenefitModelDefine, {
   updatedAt: true,
   paranoid: true,
 });
+
+// benefit to onboarding
+BoardingResidenceModel.belongsTo(BenefitModel, { foreignKey: "room_id" });
+BenefitModel.hasMany(BoardingResidenceModel, { foreignKey: "room_id" });
 
 Object.keys(BenefitModelDefine).map((item) => {
   BenefitModelDefine[item] = BenefitModelDefine[item]["defaultValue"]

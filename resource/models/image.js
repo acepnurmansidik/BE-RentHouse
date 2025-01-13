@@ -1,5 +1,6 @@
 const { DataTypes } = require("sequelize");
 const DBConn = require("../../db");
+const { ResidenceRoomModel } = require("./residence_room");
 
 const ImageModelDefine = {
   id: {
@@ -31,6 +32,9 @@ const ImageModel = DBConn.define("image", ImageModelDefine, {
   updatedAt: true,
   paranoid: true,
 });
+
+ImageModel.belongsTo(ResidenceRoomModel, { foreignKey: "source_id" });
+ResidenceRoomModel.hasMany(ImageModel, { foreignKey: "source_id" });
 
 Object.keys(ImageModelDefine).map((item) => {
   ImageModelDefine[item] = ImageModelDefine[item]["defaultValue"]

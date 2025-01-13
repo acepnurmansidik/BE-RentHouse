@@ -2,6 +2,7 @@ const { DataTypes } = require("sequelize");
 const DBConn = require("../../db");
 const { ResidenceRoomModel } = require("./residence_room");
 const { UserModel } = require("./user");
+const { TestimonialModel } = require("./testimonial");
 
 const RoomCommentModelDefine = {
   id: {
@@ -39,6 +40,12 @@ const RoomCommentModel = DBConn.define("room_comment", RoomCommentModelDefine, {
   updatedAt: true,
   paranoid: true,
 });
+
+RoomCommentModel.belongsTo(UserModel, { foreignKey: "user_id" });
+UserModel.hasMany(RoomCommentModel, { foreignKey: "user_id" });
+
+RoomCommentModel.belongsTo(ResidenceRoomModel, { foreignKey: "room_id" });
+ResidenceRoomModel.hasMany(RoomCommentModel, { foreignKey: "room_id" });
 
 Object.keys(RoomCommentModelDefine).map((item) => {
   RoomCommentModelDefine[item] = RoomCommentModelDefine[item]["defaultValue"]
