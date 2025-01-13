@@ -14,7 +14,7 @@ controller.Register = async (req, res, next) => {
     }] 
   */
   /* 
-    #swagger.tags = ['Master Role']
+    #swagger.tags = ['AUTH']
     #swagger.summary = 'role user'
     #swagger.description = 'every user has role for access'
     #swagger.parameters['obj'] = {
@@ -35,7 +35,7 @@ controller.Register = async (req, res, next) => {
 
 controller.Login = async (req, res, next) => {
   /* 
-    #swagger.tags = ['Master Role']
+    #swagger.tags = ['AUTH']
     #swagger.summary = 'role user'
     #swagger.description = 'every user has role for access'
     #swagger.parameters['obj'] = {

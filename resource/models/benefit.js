@@ -49,6 +49,7 @@ const BenefitModel = DBConn.define("benefit", BenefitModelDefine, {
 BoardingResidenceModel.belongsTo(BenefitModel, { foreignKey: "room_id" });
 BenefitModel.hasMany(BoardingResidenceModel, { foreignKey: "room_id" });
 
+delete BenefitModelDefine.id;
 Object.keys(BenefitModelDefine).map((item) => {
   BenefitModelDefine[item] = BenefitModelDefine[item]["defaultValue"]
     ? BenefitModelDefine[item]["defaultValue"]

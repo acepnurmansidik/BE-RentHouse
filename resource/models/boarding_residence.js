@@ -77,6 +77,7 @@ CityModel.hasOne(BoardingResidenceModel, { foreignKey: "city_id" });
 BoardingResidenceModel.belongsTo(UserModel, { foreignKey: "owner_id" });
 UserModel.hasOne(BoardingResidenceModel, { foreignKey: "owner_id" });
 
+delete BoardingResidenceModelDefine.id;
 Object.keys(BoardingResidenceModelDefine).map((item) => {
   BoardingResidenceModelDefine[item] = BoardingResidenceModelDefine[item][
     "defaultValue"

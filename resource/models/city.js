@@ -30,6 +30,7 @@ const CityModel = DBConn.define("city", CityModelDefine, {
   paranoid: true,
 });
 
+delete CityModelDefine.id;
 Object.keys(CityModelDefine).map((item) => {
   CityModelDefine[item] = CityModelDefine[item]["defaultValue"]
     ? CityModelDefine[item]["defaultValue"]

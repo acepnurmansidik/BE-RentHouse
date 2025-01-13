@@ -58,6 +58,7 @@ BoardingResidenceModel.hasMany(ResidenceRoomModel, {
   foreignKey: "residence_id",
 });
 
+delete ResidenceRoomModelDefine.id;
 Object.keys(ResidenceRoomModelDefine).map((item) => {
   ResidenceRoomModelDefine[item] = ResidenceRoomModelDefine[item][
     "defaultValue"

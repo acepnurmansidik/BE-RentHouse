@@ -48,6 +48,7 @@ UserModel.hasMany(RoomCommentModel, { foreignKey: "user_id" });
 RoomCommentModel.belongsTo(ResidenceRoomModel, { foreignKey: "room_id" });
 ResidenceRoomModel.hasMany(RoomCommentModel, { foreignKey: "room_id" });
 
+delete RoomCommentModelDefine.id;
 Object.keys(RoomCommentModelDefine).map((item) => {
   RoomCommentModelDefine[item] = RoomCommentModelDefine[item]["defaultValue"]
     ? RoomCommentModelDefine[item]["defaultValue"]

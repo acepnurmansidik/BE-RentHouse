@@ -102,6 +102,7 @@ BoardingResidenceModel.hasMany(TransactionModel, {
   foreignKey: "residence_id",
 });
 
+delete TransactionModelDefine.id;
 Object.keys(TransactionModelDefine).map((item) => {
   TransactionModelDefine[item] = TransactionModelDefine[item]["defaultValue"]
     ? TransactionModelDefine[item]["defaultValue"]

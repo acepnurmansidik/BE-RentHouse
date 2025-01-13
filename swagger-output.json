@@ -25,7 +25,7 @@
     "/singup": {
       "post": {
         "tags": [
-          "Master Role"
+          "AUTH"
         ],
         "summary": "role user",
         "description": "every user has role for access",
@@ -37,11 +37,6 @@
             "schema": {
               "$ref": "#/definitions/BodyUserSchema"
             }
-          },
-          {
-            "name": "user-agent",
-            "in": "header",
-            "type": "string"
           }
         ],
         "responses": {
@@ -59,7 +54,7 @@
     "/signin": {
       "post": {
         "tags": [
-          "Master Role"
+          "AUTH"
         ],
         "summary": "role user",
         "description": "every user has role for access",
@@ -79,29 +74,206 @@
           }
         }
       }
+    },
+    "/role/": {
+      "get": {
+        "tags": [
+          "MASTER ROLE"
+        ],
+        "summary": "role user",
+        "description": "every user has role for access",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "MASTER ROLE"
+        ],
+        "summary": "role user",
+        "description": "every user has role for access",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "Create role",
+            "schema": {
+              "$ref": "#/definitions/BodyRolesSchema"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/role/{id}": {
+      "put": {
+        "tags": [
+          "MASTER ROLE"
+        ],
+        "summary": "role user",
+        "description": "every user has role for access",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "Create role",
+            "schema": {
+              "$ref": "#/definitions/BodyRolesSchema"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "MASTER ROLE"
+        ],
+        "summary": "role user",
+        "description": "every user has role for access",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
     }
   },
   "definitions": {
     "BodyUserSchema": {
       "type": "object",
       "properties": {
-        "email": {
-          "type": "string",
-          "example": "example@gmail.com"
-        },
+        "username": {},
         "password": {
           "type": "string",
           "example": "example secret"
-        }
+        },
+        "otp_code": {},
+        "status": {},
+        "role_id": {}
       }
     },
     "QueryUserSchema": {
       "type": "object",
       "properties": {
-        "email": {
-          "type": "string",
-          "example": "example@gmail.com"
+        "username": {}
+      }
+    },
+    "BodyRolesSchema": {
+      "type": "object",
+      "properties": {
+        "name": {}
+      }
+    },
+    "BodyCitySchema": {
+      "type": "object",
+      "properties": {
+        "name": {},
+        "slug": {}
+      }
+    },
+    "BodyBoardingResidenceSchema": {
+      "type": "object",
+      "properties": {
+        "name": {},
+        "slug": {},
+        "description": {},
+        "thumbnail": {},
+        "address": {},
+        "category": {},
+        "city_id": {},
+        "owner_id": {},
+        "facility": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {},
+              "slug": {},
+              "room_id": {}
+            }
+          }
+        },
+        "benefit": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {},
+              "slug": {},
+              "description": {},
+              "room_id": {}
+            }
+          }
+        },
+        "images": {
+          "type": "array",
+          "example": [],
+          "items": {}
         }
+      }
+    },
+    "BodyRoomCommentSchema": {
+      "type": "object",
+      "properties": {
+        "comment": {},
+        "user_id": {},
+        "room_id": {}
+      }
+    },
+    "BodyTestimonialSchema": {
+      "type": "object",
+      "properties": {
+        "rating": {
+          "type": "number",
+          "example": 1
+        },
+        "comment": {},
+        "user_id": {},
+        "room_id": {}
       }
     },
     "NotFound": {

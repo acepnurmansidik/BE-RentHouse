@@ -54,6 +54,7 @@ const UserModel = DBConn.define("user", UserModelDefine, {
 UserModel.belongsTo(RolesModel, { foreignKey: "role_id" });
 RolesModel.hasOne(UserModel, { foreignKey: "role_id" });
 
+delete UserModelDefine.id;
 Object.keys(UserModelDefine).map((item) => {
   UserModelDefine[item] = UserModelDefine[item]["defaultValue"]
     ? UserModelDefine[item]["defaultValue"]

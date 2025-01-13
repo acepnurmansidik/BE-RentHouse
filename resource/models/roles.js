@@ -16,6 +16,7 @@ const RolesModelDefine = {
   slug: {
     type: DataTypes.STRING,
     allowNull: false,
+    message: "Duplicate name",
     unique: true,
     defaultValue: "",
   },
@@ -30,6 +31,8 @@ const RolesModel = DBConn.define("role", RolesModelDefine, {
   paranoid: true,
 });
 
+delete RolesModelDefine.id;
+delete RolesModelDefine.slug;
 Object.keys(RolesModelDefine).map((item) => {
   RolesModelDefine[item] = RolesModelDefine[item]["defaultValue"]
     ? RolesModelDefine[item]["defaultValue"]

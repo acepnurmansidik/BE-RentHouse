@@ -44,6 +44,7 @@ const FacilityModel = DBConn.define("facility", FacilityModelDefine, {
 FacilityModel.belongsTo(ResidenceRoomModel, { foreignKey: "room_id" });
 ResidenceRoomModel.hasMany(FacilityModel, { foreignKey: "room_id" });
 
+delete FacilityModelDefine.id;
 Object.keys(FacilityModelDefine).map((item) => {
   FacilityModelDefine[item] = FacilityModelDefine[item]["defaultValue"]
     ? FacilityModelDefine[item]["defaultValue"]

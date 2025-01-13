@@ -52,6 +52,7 @@ UserModel.hasMany(TestimonialModel, { foreignKey: "user_id" });
 TestimonialModel.belongsTo(ResidenceRoomModel, { foreignKey: "room_id" });
 ResidenceRoomModel.hasMany(TestimonialModel, { foreignKey: "room_id" });
 
+delete TestimonialModelDefine.id;
 Object.keys(TestimonialModelDefine).map((item) => {
   TestimonialModelDefine[item] = TestimonialModelDefine[item]["defaultValue"]
     ? TestimonialModelDefine[item]["defaultValue"]

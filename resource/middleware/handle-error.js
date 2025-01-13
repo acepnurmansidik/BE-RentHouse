@@ -8,7 +8,9 @@ const errorHandlerMiddleware = (err, req, res, next) => {
     msg: err.message || "Something went wrong try again later",
   };
   // error validation dari mongoose
-  if (err.name === "ValidationError") {
+  if (
+    ["ValidationError", "SequelizeUniqueConstraintError"].includes(err.name)
+  ) {
     customError.msg = Object.values(err.errors)
       .map((item) => item.message)
       .join(", ");

@@ -37,6 +37,7 @@ const ImageModel = DBConn.define("image", ImageModelDefine, {
 ImageModel.belongsTo(ResidenceRoomModel, { foreignKey: "source_id" });
 ResidenceRoomModel.hasMany(ImageModel, { foreignKey: "source_id" });
 
+delete ImageModelDefine.id;
 Object.keys(ImageModelDefine).map((item) => {
   ImageModelDefine[item] = ImageModelDefine[item]["defaultValue"]
     ? ImageModelDefine[item]["defaultValue"]

@@ -1,5 +1,5 @@
 const swaggerAutogen = require("swagger-autogen")();
-const GlobalSchema = require("./resource/schema");
+const GlobalSchema = require("./schema");
 
 const outputFile = "./swagger-output.json";
 const endpointsFiles = ["./app.js"]; // Sesuaikan dengan file-file yang berisi route Anda
