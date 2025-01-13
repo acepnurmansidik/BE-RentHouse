@@ -442,14 +442,186 @@
             "in": "path",
             "required": true,
             "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/boarding-residence/comments": {
+      "post": {
+        "tags": [
+          "COMMENTS BOARDING RESIDENCE"
+        ],
+        "summary": "role user",
+        "description": "every user has role for access",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "Create role",
+            "schema": {
+              "$ref": "#/definitions/BodyRoomCommentSchema"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/boarding-residence/comments/{id}": {
+      "put": {
+        "tags": [
+          "COMMENTS BOARDING RESIDENCE"
+        ],
+        "summary": "role user",
+        "description": "every user has role for access",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
           },
           {
             "name": "obj",
             "in": "body",
             "description": "Create role",
             "schema": {
-              "$ref": "#/definitions/BodyBoardingResidenceSchema"
+              "$ref": "#/definitions/BodyRoomCommentSchema"
             }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "COMMENTS BOARDING RESIDENCE"
+        ],
+        "summary": "role user",
+        "description": "every user has role for access",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/boarding-residence/testimonial/{id}": {
+      "put": {
+        "tags": [
+          "TESTIMONIAL BOARDING RESIDENCE"
+        ],
+        "summary": "role user",
+        "description": "every user has role for access",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "Create role",
+            "schema": {
+              "$ref": "#/definitions/BodyTestimonialSchema"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/boarding-residence/trx": {
+      "post": {
+        "tags": [
+          "TRANSACTION"
+        ],
+        "summary": "role user",
+        "description": "every user has role for access",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "Create role",
+            "schema": {
+              "$ref": "#/definitions/BodyTransactionSchema"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/boarding-residence/trx/{id}": {
+      "put": {
+        "tags": [
+          "TRANSACTION"
+        ],
+        "summary": "role user",
+        "description": "every user has role for access",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
           }
         ],
         "responses": {
@@ -505,7 +677,6 @@
         "address": {},
         "category": {},
         "city_id": {},
-        "owner_id": {},
         "rooms": {
           "type": "array",
           "items": {
@@ -561,7 +732,6 @@
       "type": "object",
       "properties": {
         "comment": {},
-        "user_id": {},
         "room_id": {}
       }
     },
@@ -572,8 +742,37 @@
           "type": "number",
           "example": 1
         },
-        "comment": {},
-        "user_id": {},
+        "comment": {}
+      }
+    },
+    "BodyTransactionSchema": {
+      "type": "object",
+      "properties": {
+        "duration": {
+          "type": "number",
+          "example": 1
+        },
+        "start_date": {
+          "type": "number",
+          "example": 1736773019329
+        },
+        "name": {
+          "type": "string",
+          "example": "john doe"
+        },
+        "phone_number": {
+          "type": "string",
+          "example": "087465497741"
+        },
+        "price_per_month": {
+          "type": "number",
+          "example": 500000
+        },
+        "email": {
+          "type": "string",
+          "example": "example@gmail.com"
+        },
+        "residence_id": {},
         "room_id": {}
       }
     },

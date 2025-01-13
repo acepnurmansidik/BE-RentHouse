@@ -13,7 +13,6 @@ const TransactionModelDefine = {
   total_amount: {
     type: DataTypes.INTEGER,
     allowNull: false,
-    defaultValue: 0,
   },
   duration: {
     type: DataTypes.INTEGER,
@@ -28,31 +27,31 @@ const TransactionModelDefine = {
   code_trx: {
     type: DataTypes.STRING,
     allowNull: false,
-    defaultValue: "",
   },
   start_date: {
     type: DataTypes.DATE,
     allowNull: false,
+    defaultValue: Date.now(),
   },
   name: {
     type: DataTypes.STRING,
     allowNull: false,
-    defaultValue: "",
+    defaultValue: "john doe",
   },
   phone_number: {
     type: DataTypes.STRING,
     allowNull: false,
-    defaultValue: "",
+    defaultValue: "087465497741",
   },
-  price_oer_month: {
+  price_per_month: {
     type: DataTypes.INTEGER,
     allowNull: false,
-    defaultValue: 0,
+    defaultValue: 500000,
   },
   email: {
     type: DataTypes.STRING,
     allowNull: false,
-    defaultValue: "",
+    defaultValue: "example@gmail.com",
   },
   user_id: {
     type: DataTypes.UUID,
@@ -106,6 +105,10 @@ BoardingResidenceModel.hasMany(TransactionModel, {
 });
 
 delete TransactionModelDefine.id;
+delete TransactionModelDefine.user_id;
+delete TransactionModelDefine.code_trx;
+delete TransactionModelDefine.payment_status;
+delete TransactionModelDefine.total_amount;
 Object.keys(TransactionModelDefine).map((item) => {
   TransactionModelDefine[item] = TransactionModelDefine[item]["defaultValue"]
     ? TransactionModelDefine[item]["defaultValue"]

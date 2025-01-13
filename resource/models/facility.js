@@ -1,9 +1,6 @@
 const { DataTypes } = require("sequelize");
 const DBConn = require("../../db");
-const {
-  ResidenceRoomModel,
-  ResidenceRoomModelDefine,
-} = require("./residence_room");
+const { ResidenceRoomModel } = require("./residence_room");
 
 const FacilityModelDefine = {
   id: {

@@ -189,4 +189,15 @@ globalFunc.response = ({ res, method, data = null }) => {
   return res.status(response.status_code).json(response);
 };
 
+globalFunc.generateTokenCode = async () => {
+  const tokenCode =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890abcdefghijklmnopqrstuvwxyz";
+  const token = [];
+  for (let i = 0; i < 10; i++) {
+    token.push(tokenCode[~~(Math.random() * tokenCode.length + 1)]);
+  }
+
+  return token.join("");
+};
+
 module.exports = { globalFunc, verifyJwtToken };

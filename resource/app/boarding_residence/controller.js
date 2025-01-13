@@ -2,13 +2,17 @@ const DBConn = require("../../../db");
 const { globalFunc } = require("../../helper/global-func");
 const { BoardingResidenceModel } = require("../../models/boarding_residence");
 const { ResidenceRoomModel } = require("../../models/residence_room");
+const { TestimonialModel } = require("../../models/testimonial");
 const { FacilityModel } = require("../../models/facility");
+const { RoomCommentModel } = require("../../models/room_comment");
 const { BenefitModel } = require("../../models/benefit");
 const { methodConstant } = require("../../utils/constanta");
 const { NotFoundError } = require("../../utils/errors");
 const { Op } = require("sequelize");
+const { TransactionModel } = require("../../models/transactions");
 const controller = {};
 
+// RESIDENCES ===========================================================================
 controller.index = async (req, res, next) => {
   /* 
     #swagger.security = [{
@@ -178,7 +182,7 @@ controller.updateBoardingResidence = async (req, res, next) => {
 
     // send response to client
     await transaction.commit();
-    return globalFunc.response({ res, method: methodConstant.POST });
+    return globalFunc.response({ res, method: methodConstant.PUT });
   } catch (err) {
     // await transaction.rollback();
     next(err);
@@ -192,14 +196,9 @@ controller.deleteBoardingResidence = async (req, res, next) => {
     }] 
   */
   /* 
-   #swagger.tags = ['MASTER BOARDING RESIDENCE']
+    #swagger.tags = ['MASTER BOARDING RESIDENCE']
     #swagger.summary = 'role user'
     #swagger.description = 'every user has role for access'
-    #swagger.parameters['obj'] = {
-      in: 'body',
-      description: 'Create role',
-      schema: { $ref: '#/definitions/BodyBoardingResidenceSchema' }
-    }
   */
   const transaction = await DBConn.transaction();
   try {
@@ -236,9 +235,239 @@ controller.deleteBoardingResidence = async (req, res, next) => {
 
     // send response to client
     await transaction.commit();
-    return globalFunc.response({ res, method: methodConstant.POST });
+    return globalFunc.response({ res, method: methodConstant.DELETE });
   } catch (err) {
     // await transaction.rollback();
+    next(err);
+  }
+};
+
+// COMMENTS =============================================================================
+controller.createNewComment = async (req, res, next) => {
+  /* 
+    #swagger.security = [{
+      "bearerAuth": []
+    }] 
+  */
+  /* 
+   #swagger.tags = ['COMMENTS BOARDING RESIDENCE']
+   #swagger.summary = 'role user'
+   #swagger.description = 'every user has role for access'
+   #swagger.parameters['obj'] = {
+      in: 'body',
+      description: 'Create role',
+      schema: { $ref: '#/definitions/BodyRoomCommentSchema' }
+    }
+  */
+  try {
+    // get payload from body
+    const payload = req.body;
+
+    // inser to database
+    await RoomCommentModel.create(payload);
+
+    // send response to client
+    return globalFunc.response({ res, method: methodConstant.POST });
+  } catch (err) {
+    next(err);
+  }
+};
+
+controller.updateComment = async (req, res, next) => {
+  /* 
+    #swagger.security = [{
+      "bearerAuth": []
+    }] 
+  */
+  /* 
+   #swagger.tags = ['COMMENTS BOARDING RESIDENCE']
+   #swagger.summary = 'role user'
+   #swagger.description = 'every user has role for access'
+    #swagger.parameters['obj'] = {
+      in: 'body',
+      description: 'Create role',
+      schema: { $ref: '#/definitions/BodyRoomCommentSchema' }
+    }
+  */
+  try {
+    // get payload from body
+    const payload = req.body;
+    // get data in database use params
+    const id = req.params.id;
+
+    // inser to database
+    await RoomCommentModel.update(payload, { where: { id } });
+
+    // send response to client
+    return globalFunc.response({ res, method: methodConstant.POST });
+  } catch (err) {
+    next(err);
+  }
+};
+
+controller.deleteComment = async (req, res, next) => {
+  /* 
+    #swagger.security = [{
+      "bearerAuth": []
+    }] 
+  */
+  /* 
+   #swagger.tags = ['COMMENTS BOARDING RESIDENCE']
+   #swagger.summary = 'role user'
+   #swagger.description = 'every user has role for access'
+  */
+  try {
+    // get data in database use params
+    const id = req.params.id;
+
+    // inser to database
+    await RoomCommentModel.destroy({ where: { id } });
+
+    // send response to client
+    return globalFunc.response({ res, method: methodConstant.POST });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// TESTIMONIALS =========================================================================
+controller.updateTestimonial = async (req, res, next) => {
+  /* 
+    #swagger.security = [{
+      "bearerAuth": []
+    }] 
+  */
+  /* 
+   #swagger.tags = ['TESTIMONIAL BOARDING RESIDENCE']
+   #swagger.summary = 'role user'
+   #swagger.description = 'every user has role for access'
+    #swagger.parameters['obj'] = {
+      in: 'body',
+      description: 'Create role',
+      schema: { $ref: '#/definitions/BodyTestimonialSchema' }
+    }
+  */
+  try {
+    // get payload from body
+    const payload = req.body;
+
+    // get data in database use params
+    const id = req.params.id;
+
+    // check data is avalable
+    const isAvailable = await TestimonialModel.findOne({ where: { id } });
+
+    // send response 404 when data not found
+    if (!isAvailable) throw new NotFoundError(`Data with id ${id} not found`);
+
+    // update data into database
+    await TestimonialModel.update(payload, {
+      where: { id },
+    });
+
+    // send response to client
+    return globalFunc.response({ res, method: methodConstant.PUT });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// TRANSACTIONS =========================================================================
+controller.createTransaction = async (req, res, next) => {
+  /* 
+    #swagger.security = [{
+      "bearerAuth": []
+    }] 
+  */
+  /* 
+   #swagger.tags = ['TRANSACTION']
+    #swagger.summary = 'role user'
+    #swagger.description = 'every user has role for access'
+    #swagger.parameters['obj'] = {
+      in: 'body',
+      description: 'Create role',
+      schema: { $ref: '#/definitions/BodyTransactionSchema' }
+    }
+  */
+  const transaction = await DBConn.transaction();
+  try {
+    // get payload from body
+    const payload = req.body;
+
+    // check data room and residence in database
+    const [dRoomIsAvailable, dResidenceIsAvailable] = await Promise.all([
+      ResidenceRoomModel.findOne({ where: { id: payload.room_id } }),
+      BoardingResidenceModel.findOne({ where: { id: payload.residence_id } }),
+    ]);
+
+    if (!dRoomIsAvailable)
+      throw new NotFoundError(
+        `Data room with id '${payload.room_id}' is not foudn`,
+      );
+    if (!dResidenceIsAvailable)
+      throw new NotFoundError(
+        `Data residence with id '${payload.residence_id}' is not foudn`,
+      );
+
+    // calculate total price
+    payload.total_amount = payload.duration * payload.price_per_month;
+    // create code transaction
+    payload.code_trx = globalFunc.generateTokenCode();
+
+    // insert data transaction to database
+    await TransactionModel.create(payload, { transaction });
+    await transaction.commit();
+
+    // send response to client
+    return globalFunc.response({ res, method: methodConstant.POST });
+  } catch (err) {
+    await transaction.rollback();
+    next(err);
+  }
+};
+
+controller.updatePaymentTransaction = async (req, res, next) => {
+  /* 
+    #swagger.security = [{
+      "bearerAuth": []
+    }] 
+  */
+  /* 
+   #swagger.tags = ['TRANSACTION']
+    #swagger.summary = 'role user'
+    #swagger.description = 'every user has role for access'
+  */
+  const transaction = await DBConn.transaction();
+  try {
+    // get id from params
+    const id = req.params.id;
+
+    // check data transaction in database
+    const isAvailable = await TransactionModel.findOne({ where: { id } });
+    if (!isAvailable)
+      throw new NotFoundError(`Data transaction with id '${id}' is not found`);
+
+    // when data available update payment_status to be true
+    await TransactionModel.update(
+      { payment_status: true },
+      { where: { id }, transaction },
+    );
+
+    // create testimonial for rating residence
+    await TestimonialModel.create(
+      {
+        room_id: payload.room_id,
+        user_id: payload.user_id,
+        rating: 0,
+      },
+      { transaction },
+    );
+
+    // send response to client
+    await transaction.commit();
+    return globalFunc.response({ res, method: methodConstant.POST });
+  } catch (err) {
+    await transaction.rollback();
     next(err);
   }
 };

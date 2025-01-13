@@ -2,7 +2,6 @@ const { DataTypes } = require("sequelize");
 const DBConn = require("../../db");
 const { ResidenceRoomModel } = require("./residence_room");
 const { UserModel } = require("./user");
-const { TestimonialModel } = require("./testimonial");
 
 const RoomCommentModelDefine = {
   id: {
@@ -52,6 +51,7 @@ RoomCommentModel.belongsTo(ResidenceRoomModel, { foreignKey: "room_id" });
 ResidenceRoomModel.hasMany(RoomCommentModel, { foreignKey: "room_id" });
 
 delete RoomCommentModelDefine.id;
+delete RoomCommentModelDefine.user_id;
 Object.keys(RoomCommentModelDefine).map((item) => {
   RoomCommentModelDefine[item] = RoomCommentModelDefine[item]["defaultValue"]
     ? RoomCommentModelDefine[item]["defaultValue"]
