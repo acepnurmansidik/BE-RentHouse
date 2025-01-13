@@ -30,7 +30,7 @@ const RolesModel = DBConn.define("role", RolesModelDefine, {
   updatedAt: true,
   paranoid: true,
   defaultScope: {
-    attributes: { exclude: ["createdAt", "updatedAt", "deletedAt"] },
+    attributes: { exclude: ["createdAt", "updatedAt", "deletedAt", "slug"] },
   },
 });
 

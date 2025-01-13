@@ -165,7 +165,7 @@ globalFunc.QuerySearch = async (payload) => {
   return result;
 };
 
-globalFunc.response = ({ res, method, data }) => {
+globalFunc.response = ({ res, method, data = null }) => {
   let response = {
     status_code: StatusCodes.OK,
     message: "success",

@@ -1,8 +1,7 @@
+const { CityModel } = require("../../models/city");
 const { globalFunc } = require("../../helper/global-func");
-const { RolesModel } = require("../../models/roles");
 const { methodConstant } = require("../../utils/constanta");
-const { BadRequestError, NotFoundError } = require("../../utils/errors/index");
-
+const { BadRequestError, NotFoundError } = require("../../utils/errors");
 const controller = {};
 
 controller.index = async (req, res, next) => {
@@ -12,141 +11,151 @@ controller.index = async (req, res, next) => {
     }] 
   */
   /* 
-    #swagger.tags = ['MASTER ROLE']
+    #swagger.tags = ['MASTER CITY']
     #swagger.summary = 'role user'
     #swagger.description = 'every user has role for access'
+    #swagger.parameters['name'] = { default: '', description: 'Search by type' }
     #swagger.parameters['page'] = { default: '1', description: 'Search by type' }
     #swagger.parameters['limit'] = { default: '10', description: 'Search by type' }
   */
   try {
-    const query = req.query;
+    // get filter from query
+    const filter = req.query;
 
-    // get all data from table role
-    const data = await RolesModel.findAll();
+    // get data from database
+    const result = await CityModel.findAll();
 
     // send response to client
-    return globalFunc.response({ res, method: methodConstant.GET, data });
+    return globalFunc.response({
+      res,
+      method: methodConstant.GET,
+      data: result,
+    });
   } catch (err) {
     next(err);
   }
 };
 
-controller.createNewRole = async (req, res, next) => {
+controller.createNewCity = async (req, res, next) => {
   /* 
     #swagger.security = [{
       "bearerAuth": []
     }] 
   */
   /* 
-    #swagger.tags = ['MASTER ROLE']
+    #swagger.tags = ['MASTER CITY']
     #swagger.summary = 'role user'
     #swagger.description = 'every user has role for access'
     #swagger.parameters['obj'] = {
       in: 'body',
       description: 'Create role',
-      schema: { $ref: '#/definitions/BodyRolesSchema' }
+      schema: { $ref: '#/definitions/BodyCitySchema' }
     }
   */
   try {
     // get payload from body
     const payload = req.body;
-
-    // buatkan slugnya
+    // changes to title case name
+    payload.name = payload.name.replace(/\b\w/g, (char) => char.toUpperCase());
     payload.slug = payload.name.toLowerCase().replace(/\s+/g, "-");
 
     // insert to database
-    await RolesModel.create(payload);
+    await CityModel.create(payload);
 
     // send response to client
     return globalFunc.response({
       res,
       method: methodConstant.POST,
-      data: null,
     });
   } catch (err) {
     next(err);
   }
 };
 
-controller.updateRole = async (req, res, next) => {
+controller.updateCity = async (req, res, next) => {
   /* 
     #swagger.security = [{
       "bearerAuth": []
     }] 
   */
   /* 
-    #swagger.tags = ['MASTER ROLE']
+    #swagger.tags = ['MASTER CITY']
     #swagger.summary = 'role user'
     #swagger.description = 'every user has role for access'
     #swagger.parameters['obj'] = {
       in: 'body',
       description: 'Create role',
-      schema: { $ref: '#/definitions/BodyRolesSchema' }
+      schema: { $ref: '#/definitions/BodyCitySchema' }
     }
   */
   try {
     // get payload from body
     const payload = req.body;
-
-    // get data form params use id
+    // get data from db use id
     const id = req.params.id;
 
-    // konvert slug using name
+    // changes to title case name
+    payload.name = payload.name.replace(/\b\w/g, (char) => char.toUpperCase());
     payload.slug = payload.name.toLowerCase().replace(/\s+/g, "-");
 
-    // check is data exist in databse using id
-    const [isExist, isDuplicate] = await Promise.all([
-      RolesModel.findOne({ where: { id }, raw: true }),
-      RolesModel.findOne({ where: { slug: payload.slug }, raw: true }),
+    // check is available in database
+    const [isAvailable, isDuplicate] = await Promise.all([
+      CityModel.findOne({ where: { id }, raw: true }),
+      CityModel.findOne({ where: { slug: payload.slug }, raw: true }),
     ]);
 
-    if (!isExist) throw new NotFoundError(`Data with id '${id}' not found!`);
+    // send not found error if not exist
+    if (!isAvailable) throw new NotFoundError(`Data with id '${id}' not found`);
+    // send not found error if duplicate data
     if (isDuplicate)
-      throw new BadRequestError(`Data with name '${payload.name}' is exist!`);
+      throw new BadRequestError(`Data with name '${payload.name}' is exist`);
 
-    // update data in database
-    await RolesModel.update(payload, { where: { id } });
+    // update to database
+    await CityModel.update(payload, { where: { id } });
 
     // send response to client
     return globalFunc.response({
       res,
       method: methodConstant.PUT,
-      data: null,
     });
   } catch (err) {
     next(err);
   }
 };
 
-controller.deleteRole = async (req, res, next) => {
+controller.deleteCity = async (req, res, next) => {
   /* 
     #swagger.security = [{
       "bearerAuth": []
     }] 
   */
   /* 
-    #swagger.tags = ['MASTER ROLE']
+    #swagger.tags = ['MASTER CITY']
     #swagger.summary = 'role user'
     #swagger.description = 'every user has role for access'
+    #swagger.parameters['obj'] = {
+      in: 'body',
+      description: 'Create role',
+      schema: { $ref: '#/definitions/BodyCitySchema' }
+    }
   */
   try {
-    // get id from params
+    // get data from db use id
     const id = req.params.id;
 
-    // check data from database use id
-    const isExist = await RolesModel.findOne({ where: { id }, raw: true });
+    // check is available in database
+    const isAvailable = await CityModel.findOne({ where: { id }, raw: true });
 
-    // send error if data not found
-    if (!isExist) throw new NotFoundError(`data with id '${id}' not found`);
+    // send not found error if not exist
+    if (!isAvailable) throw new NotFoundError(`Data with id '${id}' not found`);
 
-    // delete data from database
-    await RolesModel.destroy({ where: { id } });
+    // update to database
+    await CityModel.destroy({ where: { id } });
 
     // send response to client
     return globalFunc.response({
       res,
       method: methodConstant.DELETE,
-      data: null,
     });
   } catch (err) {
     next(err);

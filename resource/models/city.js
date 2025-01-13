@@ -29,11 +29,12 @@ const CityModel = DBConn.define("city", CityModelDefine, {
   updatedAt: true,
   paranoid: true,
   defaultScope: {
-    attributes: { exclude: ["createdAt", "updatedAt", "deletedAt"] },
+    attributes: { exclude: ["createdAt", "updatedAt", "deletedAt", "slug"] },
   },
 });
 
 delete CityModelDefine.id;
+delete CityModelDefine.slug;
 Object.keys(CityModelDefine).map((item) => {
   CityModelDefine[item] = CityModelDefine[item]["defaultValue"]
     ? CityModelDefine[item]["defaultValue"]
