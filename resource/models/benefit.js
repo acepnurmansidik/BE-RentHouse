@@ -43,8 +43,14 @@ const BenefitModel = DBConn.define("benefit", BenefitModelDefine, {
 });
 
 // benefit to onboarding
-BenefitModel.belongsTo(BoardingResidenceModel, { foreignKey: "room_id" });
-BoardingResidenceModel.hasMany(BenefitModel, { foreignKey: "room_id" });
+BenefitModel.belongsTo(ResidenceRoomModel, {
+  foreignKey: "room_id",
+  as: "benefit_room",
+});
+ResidenceRoomModel.hasMany(BenefitModel, {
+  foreignKey: "room_id",
+  as: "benefit_room",
+});
 
 delete BenefitModelDefine.id;
 Object.keys(BenefitModelDefine).map((item) => {

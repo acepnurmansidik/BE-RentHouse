@@ -10,6 +10,8 @@ const { methodConstant } = require("../../utils/constanta");
 const { NotFoundError } = require("../../utils/errors");
 const { Op } = require("sequelize");
 const { TransactionModel } = require("../../models/transactions");
+const { CityModel } = require("../../models/city");
+const { UserModel } = require("../../models/user");
 const controller = {};
 
 // RESIDENCES ===========================================================================
@@ -29,9 +31,98 @@ controller.index = async (req, res, next) => {
   try {
     // get filter from query
     const filter = req.query;
+    filter.owner_id = req.login.id;
 
     // get data from database
-    const result = await BoardingResidenceModel.findAll();
+    const result = await BoardingResidenceModel.findAll({
+      // where: { owner_id: req.login.id },
+      include: [
+        {
+          model: CityModel,
+          attributes: ["name"],
+          as: "city",
+        },
+        {
+          model: UserModel,
+          as: "owner",
+          attributes: ["username"],
+        },
+        {
+          model: ResidenceRoomModel,
+          as: "residence",
+          include: [
+            {
+              model: FacilityModel,
+              as: "facility_room",
+            },
+            {
+              model: BenefitModel,
+              as: "benefit_room",
+            },
+          ],
+        },
+      ],
+    });
+
+    // send response to client
+    return globalFunc.response({
+      res,
+      method: methodConstant.GET,
+      data: result,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+controller.indexOwnerBoardingResidence = async (req, res, next) => {
+  /* 
+    #swagger.security = [{
+      "bearerAuth": []
+    }] 
+  */
+  /* 
+    #swagger.tags = ['MASTER BOARDING RESIDENCE']
+    #swagger.summary = 'role user'
+    #swagger.description = 'every user has role for access'
+    #swagger.parameters['page'] = { default: '1', description: 'Search by type' }
+    #swagger.parameters['limit'] = { default: '10', description: 'Search by type' }
+  */
+  try {
+    // get filter from query
+    const filter = req.query;
+    filter.owner_id = req.login.id;
+
+    // get data from database
+    const result = await BoardingResidenceModel.findAll({
+      where: { owner_id: req.login.id },
+      include: [
+        {
+          model: CityModel,
+          attributes: ["name"],
+          as: "city",
+        },
+        {
+          model: UserModel,
+          as: "owner",
+          attributes: ["username"],
+        },
+        {
+          model: ResidenceRoomModel,
+          as: "residence",
+          include: [
+            {
+              model: FacilityModel,
+              as: "facility_room",
+            },
+            {
+              model: BenefitModel,
+              as: "benefit_room",
+            },
+          ],
+        },
+      ],
+    });
 
     // send response to client
     return globalFunc.response({
@@ -66,8 +157,14 @@ controller.createNewBoardingResidence = async (req, res, next) => {
     const payload = req.body;
     const rooms = payload.rooms;
 
+    // get data owner from login
+    payload.owner_id = req.login.id;
+
     // create slug from name
     payload.slug = payload.name.toLowerCase().replace(/\s+/g, "-");
+    payload.name = payload.name.toLowerCase().replace(/\b\w/g, function (char) {
+      return char.toUpperCase();
+    });
 
     // insert to database
     delete payload.rooms;
@@ -128,6 +225,9 @@ controller.updateBoardingResidence = async (req, res, next) => {
 
     // create slug from name
     payload.slug = payload.name.toLowerCase().replace(/\s+/g, "-");
+    payload.name = payload.name.toLowerCase().replace(/\b\w/g, function (char) {
+      return char.toUpperCase();
+    });
 
     // check data in database
     const [isAvailable, idDuplicate, dRooms] = await Promise.all([
@@ -263,6 +363,9 @@ controller.createNewComment = async (req, res, next) => {
     // get payload from body
     const payload = req.body;
 
+    // get data owner from login
+    payload.user_id = req.login.id;
+
     // inser to database
     await RoomCommentModel.create(payload);
 
@@ -361,9 +464,12 @@ controller.updateTestimonial = async (req, res, next) => {
     if (!isAvailable) throw new NotFoundError(`Data with id ${id} not found`);
 
     // update data into database
-    await TestimonialModel.update(payload, {
-      where: { id },
-    });
+    await TestimonialModel.update(
+      { ...payload, status: true },
+      {
+        where: { id },
+      },
+    );
 
     // send response to client
     return globalFunc.response({ res, method: methodConstant.PUT });
@@ -394,9 +500,12 @@ controller.createTransaction = async (req, res, next) => {
     // get payload from body
     const payload = req.body;
 
+    // get data owner from login
+    payload.user_id = req.login.id;
+
     // check data room and residence in database
     const [dRoomIsAvailable, dResidenceIsAvailable] = await Promise.all([
-      ResidenceRoomModel.findOne({ where: { id: payload.room_id } }),
+      ResidenceRoomModel.findOne({ where: { id: payload.room_id }, raw: true }),
       BoardingResidenceModel.findOne({ where: { id: payload.residence_id } }),
     ]);
 
@@ -409,10 +518,11 @@ controller.createTransaction = async (req, res, next) => {
         `Data residence with id '${payload.residence_id}' is not foudn`,
       );
 
+    payload.price_per_month = dRoomIsAvailable.price_per_month;
     // calculate total price
-    payload.total_amount = payload.duration * payload.price_per_month;
+    payload.total_amount = payload.duration * dRoomIsAvailable.price_per_month;
     // create code transaction
-    payload.code_trx = globalFunc.generateTokenCode();
+    payload.code_trx = await globalFunc.generateTokenCode();
 
     // insert data transaction to database
     await TransactionModel.create(payload, { transaction });
@@ -443,7 +553,11 @@ controller.updatePaymentTransaction = async (req, res, next) => {
     const id = req.params.id;
 
     // check data transaction in database
-    const isAvailable = await TransactionModel.findOne({ where: { id } });
+    const isAvailable = await TransactionModel.findOne({
+      where: { id },
+      raw: true,
+    });
+
     if (!isAvailable)
       throw new NotFoundError(`Data transaction with id '${id}' is not found`);
 
@@ -454,10 +568,11 @@ controller.updatePaymentTransaction = async (req, res, next) => {
     );
 
     // create testimonial for rating residence
+
     await TestimonialModel.create(
       {
-        room_id: payload.room_id,
-        user_id: payload.user_id,
+        room_id: isAvailable.room_id,
+        user_id: isAvailable.user_id,
         rating: 0,
       },
       { transaction },

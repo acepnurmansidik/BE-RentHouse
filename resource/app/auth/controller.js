@@ -1,9 +1,6 @@
 const { globalFunc } = require("../../helper/global-func");
 const { UserModel } = require("../../models/user");
-const bcrypt = require("bcrypt");
 const { BadRequestError } = require("../../utils/errors/index");
-const { StatusCodes } = require("http-status-codes");
-const response = require("../../utils/response");
 const { methodConstant } = require("../../utils/constanta");
 
 const controller = {};
@@ -20,18 +17,17 @@ controller.Register = async (req, res, next) => {
     #swagger.parameters['obj'] = {
       in: 'body',
       description: 'Create role',
-      schema: { $ref: '#/definitions/BodyUserSchema' }
+      schema: { $ref: '#/definitions/BodyRegisterSchema' }
     }
   */
   try {
     const payload = req.body;
     payload.password = await globalFunc.hashPassword({ ...payload });
-    const result = await UserModel.create(payload);
+    await UserModel.create(payload);
 
     return globalFunc.response({
       res,
-      method: methodConstant.GET,
-      data: result,
+      method: methodConstant.POST,
     });
   } catch (err) {
     next(err);
@@ -46,18 +42,18 @@ controller.Login = async (req, res, next) => {
     #swagger.parameters['obj'] = {
       in: 'body',
       description: 'Create role',
-      schema: { $ref: '#/definitions/BodyUserSchema' }
+      schema: { $ref: '#/definitions/BodyLoginSchema' }
     }
   */
   try {
-    const { email, password } = req.body;
+    const { username, password } = req.body;
     // check body
-    if (!email || !password)
+    if (!username || !password)
       throw new BadRequestError("Credentials is invalid");
     // get data from databse by email
     const data = await UserModel.findOne({
-      where: { email },
-      attributes: ["password", "email"],
+      where: { username },
+      attributes: ["password", "username"],
     });
 
     // compare password from input with saving database
@@ -71,7 +67,11 @@ controller.Login = async (req, res, next) => {
     // create JWT token for response
     const result = await globalFunc.generateJwtToken(data.toJSON());
 
-    response.MethodResponse(res, methodConstant.GET, result);
+    return globalFunc.response({
+      res,
+      method: methodConstant.POST,
+      data: result,
+    });
   } catch (err) {
     next(err);
   }

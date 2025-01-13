@@ -12,17 +12,17 @@ const BoardingResidenceModelDefine = {
   name: {
     type: DataTypes.STRING,
     allowNull: false,
-    defaultValue: "",
+    defaultValue: "Kertasari Jaya",
   },
   slug: {
     type: DataTypes.STRING,
     allowNull: false,
     unique: true,
-    defaultValue: "",
   },
   description: {
     type: DataTypes.TEXT,
-    defaultValue: "",
+    defaultValue:
+      "Temukan kenyamanan tinggal di kosan kami yang strategis dan terjangkau! Setiap kamar dilengkapi dengan fasilitas lengkap, seperti Wi-Fi cepat, AC, dan tempat tidur yang nyaman. Lokasi kami dekat dengan pusat perbelanjaan, kampus, dan transportasi umum, memudahkan mobilitas Anda. Nikmati suasana yang ramah dan bersih, serta akses ke area bersama yang nyaman. Segera hubungi kami untuk mendapatkan penawaran spesial dan jadwalkan kunjungan Anda!",
   },
   thumbnail: {
     type: DataTypes.TEXT,
@@ -31,12 +31,12 @@ const BoardingResidenceModelDefine = {
   address: {
     type: DataTypes.TEXT,
     allowNull: false,
-    defaultValue: "",
+    defaultValue: "Jl. Angkasa No. 33, Kertasari, Bandung",
   },
   category: {
     type: DataTypes.STRING,
     allowNull: false,
-    defaultValue: "",
+    defaultValue: "rent",
   },
   city_id: {
     type: DataTypes.UUID,
@@ -67,18 +67,30 @@ const BoardingResidenceModel = DBConn.define(
     updatedAt: true,
     paranoid: true,
     defaultScope: {
-      attributes: { exclude: ["createdAt", "updatedAt", "deletedAt"] },
+      attributes: { exclude: ["createdAt", "updatedAt", "deletedAt", "slug"] },
     },
   },
 );
 
 // boarding to city
-BoardingResidenceModel.belongsTo(CityModel, { foreignKey: "city_id" });
-CityModel.hasMany(BoardingResidenceModel, { foreignKey: "city_id" });
+BoardingResidenceModel.belongsTo(CityModel, {
+  foreignKey: "city_id",
+  as: "city",
+});
+CityModel.hasMany(BoardingResidenceModel, {
+  foreignKey: "city_id",
+  as: "city",
+});
 
 // boarding to owner
-BoardingResidenceModel.belongsTo(UserModel, { foreignKey: "owner_id" });
-UserModel.hasMany(BoardingResidenceModel, { foreignKey: "owner_id" });
+BoardingResidenceModel.belongsTo(UserModel, {
+  foreignKey: "owner_id",
+  as: "owner",
+});
+UserModel.hasMany(BoardingResidenceModel, {
+  foreignKey: "owner_id",
+  as: "owner",
+});
 
 delete BoardingResidenceModelDefine.id;
 delete BoardingResidenceModelDefine.slug;

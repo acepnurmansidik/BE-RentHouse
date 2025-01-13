@@ -7,7 +7,7 @@ const AuthorizeUserLogin = async (req, res, next) => {
   try {
     // get JWT token from header
     const authHeader =
-      req.headers.authorization.split(" ")[
+      req.headers.authorization?.split(" ")[
         req.headers.authorization.split(" ").length - 1
       ];
 
@@ -17,20 +17,17 @@ const AuthorizeUserLogin = async (req, res, next) => {
     // verify JWT token
     const dataValid = await verifyJwtToken(authHeader, next);
 
-    // check email is register on database
+    // check username is register on database
     const verifyData = await UserModel.findOne({
-      where: { email: dataValid.email },
+      where: { username: dataValid.username },
+      attributes: ["id", "username", "role_id"],
+      raw: true,
     });
 
     // send error not found, if data not register
     if (!verifyData) throw new NotFound("Data not register!");
 
-    // impliment login user
-    delete dataValid.iat;
-    delete dataValid.exp;
-    delete dataValid.jti;
-
-    req.login = { ...dataValid };
+    req.login = { ...verifyData };
     // next to controller
     next();
   } catch (err) {

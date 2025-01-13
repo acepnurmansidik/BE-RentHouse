@@ -15,12 +15,12 @@ const UserModelDefine = {
     // validate: {
     //   isEmail: true, // Pastikan nilai email sesuai format email
     // },
-    // defaultValue: "example@gmail.com",
+    defaultValue: "john.owner",
   },
   password: {
     type: DataTypes.STRING,
     allowNull: false,
-    defaultValue: "example secret",
+    defaultValue: "123456",
   },
   otp_code: {
     type: DataTypes.STRING,
@@ -58,6 +58,8 @@ UserModel.belongsTo(RolesModel, { foreignKey: "role_id" });
 RolesModel.hasOne(UserModel, { foreignKey: "role_id" });
 
 delete UserModelDefine.id;
+delete UserModelDefine.otp_code;
+delete UserModelDefine.status;
 Object.keys(UserModelDefine).map((item) => {
   UserModelDefine[item] = UserModelDefine[item]["defaultValue"]
     ? UserModelDefine[item]["defaultValue"]

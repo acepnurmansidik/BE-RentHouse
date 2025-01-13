@@ -36,7 +36,7 @@ const TransactionModelDefine = {
   name: {
     type: DataTypes.STRING,
     allowNull: false,
-    defaultValue: "john doe",
+    defaultValue: "john customer",
   },
   phone_number: {
     type: DataTypes.STRING,
@@ -51,11 +51,12 @@ const TransactionModelDefine = {
   email: {
     type: DataTypes.STRING,
     allowNull: false,
-    defaultValue: "example@gmail.com",
+    defaultValue: "john.customer@gmail.com",
   },
   user_id: {
     type: DataTypes.UUID,
-    allowNull: false,
+    allowNull: true,
+    defaultValue: null,
     references: {
       model: UserModel,
       key: "id",
@@ -108,6 +109,7 @@ delete TransactionModelDefine.id;
 delete TransactionModelDefine.user_id;
 delete TransactionModelDefine.code_trx;
 delete TransactionModelDefine.payment_status;
+delete TransactionModelDefine.price_per_month;
 delete TransactionModelDefine.total_amount;
 Object.keys(TransactionModelDefine).map((item) => {
   TransactionModelDefine[item] = TransactionModelDefine[item]["defaultValue"]

@@ -56,9 +56,11 @@ const ResidenceRoomModel = DBConn.define(
 
 ResidenceRoomModel.belongsTo(BoardingResidenceModel, {
   foreignKey: "residence_id",
+  as: "residence",
 });
 BoardingResidenceModel.hasMany(ResidenceRoomModel, {
   foreignKey: "residence_id",
+  as: "residence",
 });
 
 delete ResidenceRoomModelDefine.id;

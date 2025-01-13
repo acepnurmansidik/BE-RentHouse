@@ -35,7 +35,7 @@
             "in": "body",
             "description": "Create role",
             "schema": {
-              "$ref": "#/definitions/BodyUserSchema"
+              "$ref": "#/definitions/BodyRegisterSchema"
             }
           }
         ],
@@ -64,7 +64,7 @@
             "in": "body",
             "description": "Create role",
             "schema": {
-              "$ref": "#/definitions/BodyUserSchema"
+              "$ref": "#/definitions/BodyLoginSchema"
             }
           }
         ],
@@ -83,6 +83,11 @@
         "summary": "role user",
         "description": "every user has role for access",
         "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
           {
             "name": "page",
             "default": "1",
@@ -116,6 +121,11 @@
         "summary": "role user",
         "description": "every user has role for access",
         "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
           {
             "name": "obj",
             "in": "body",
@@ -152,6 +162,11 @@
             "type": "string"
           },
           {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
             "name": "obj",
             "in": "body",
             "description": "Create role",
@@ -183,6 +198,11 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
           }
         ],
         "responses": {
@@ -205,6 +225,11 @@
         "summary": "role user",
         "description": "every user has role for access",
         "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
           {
             "name": "name",
             "default": "",
@@ -246,6 +271,11 @@
         "description": "every user has role for access",
         "parameters": [
           {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
             "name": "obj",
             "in": "body",
             "description": "Create role",
@@ -278,6 +308,11 @@
             "name": "id",
             "in": "path",
             "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
             "type": "string"
           },
           {
@@ -314,12 +349,62 @@
             "type": "string"
           },
           {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
             "name": "obj",
             "in": "body",
             "description": "Create role",
             "schema": {
               "$ref": "#/definitions/BodyCitySchema"
             }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/boarding-residence/owner": {
+      "get": {
+        "tags": [
+          "MASTER BOARDING RESIDENCE"
+        ],
+        "summary": "role user",
+        "description": "every user has role for access",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "default": "1",
+            "description": "Search by type",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "default": "10",
+            "description": "Search by type",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "owner_id",
+            "in": "query",
+            "type": "string"
           }
         ],
         "responses": {
@@ -343,6 +428,11 @@
         "description": "every user has role for access",
         "parameters": [
           {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
             "name": "page",
             "default": "1",
             "description": "Search by type",
@@ -353,6 +443,11 @@
             "name": "limit",
             "default": "10",
             "description": "Search by type",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "owner_id",
             "in": "query",
             "type": "string"
           }
@@ -375,6 +470,11 @@
         "summary": "role user",
         "description": "every user has role for access",
         "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
           {
             "name": "obj",
             "in": "body",
@@ -411,6 +511,11 @@
             "type": "string"
           },
           {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
             "name": "obj",
             "in": "body",
             "description": "Create role",
@@ -442,6 +547,11 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
           }
         ],
         "responses": {
@@ -464,6 +574,11 @@
         "summary": "role user",
         "description": "every user has role for access",
         "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
           {
             "name": "obj",
             "in": "body",
@@ -500,6 +615,11 @@
             "type": "string"
           },
           {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
             "name": "obj",
             "in": "body",
             "description": "Create role",
@@ -531,6 +651,11 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
           }
         ],
         "responses": {
@@ -557,6 +682,11 @@
             "name": "id",
             "in": "path",
             "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
             "type": "string"
           },
           {
@@ -588,6 +718,11 @@
         "summary": "role user",
         "description": "every user has role for access",
         "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
           {
             "name": "obj",
             "in": "body",
@@ -622,6 +757,11 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
           }
         ],
         "responses": {
@@ -638,23 +778,43 @@
     }
   },
   "definitions": {
-    "BodyUserSchema": {
+    "BodyRegisterSchema": {
       "type": "object",
       "properties": {
-        "username": {},
+        "username": {
+          "type": "string",
+          "example": "john.customer"
+        },
         "password": {
           "type": "string",
-          "example": "example secret"
+          "example": "123456"
         },
-        "otp_code": {},
-        "status": {},
-        "role_id": {}
+        "role_id": {
+          "type": "string",
+          "example": "uuid"
+        }
+      }
+    },
+    "BodyLoginSchema": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string",
+          "example": "john.owner"
+        },
+        "password": {
+          "type": "string",
+          "example": "123456"
+        }
       }
     },
     "QueryUserSchema": {
       "type": "object",
       "properties": {
-        "username": {}
+        "username": {
+          "type": "string",
+          "example": "john.owner"
+        }
       }
     },
     "BodyRolesSchema": {
@@ -672,10 +832,22 @@
     "BodyBoardingResidenceSchema": {
       "type": "object",
       "properties": {
-        "name": {},
-        "description": {},
-        "address": {},
-        "category": {},
+        "name": {
+          "type": "string",
+          "example": "Kertasari Jaya"
+        },
+        "description": {
+          "type": "string",
+          "example": "Temukan kenyamanan tinggal di kosan kami yang strategis dan terjangkau! Setiap kamar dilengkapi dengan fasilitas lengkap, seperti Wi-Fi cepat, AC, dan tempat tidur yang nyaman. Lokasi kami dekat dengan pusat perbelanjaan, kampus, dan transportasi umum, memudahkan mobilitas Anda. Nikmati suasana yang ramah dan bersih, serta akses ke area bersama yang nyaman. Segera hubungi kami untuk mendapatkan penawaran spesial dan jadwalkan kunjungan Anda!"
+        },
+        "address": {
+          "type": "string",
+          "example": "Jl. Angkasa No. 33, Kertasari, Bandung"
+        },
+        "category": {
+          "type": "string",
+          "example": "rent"
+        },
         "city_id": {},
         "rooms": {
           "type": "array",
@@ -754,23 +926,19 @@
         },
         "start_date": {
           "type": "number",
-          "example": 1736773019329
+          "example": 1736779216987
         },
         "name": {
           "type": "string",
-          "example": "john doe"
+          "example": "john customer"
         },
         "phone_number": {
           "type": "string",
           "example": "087465497741"
         },
-        "price_per_month": {
-          "type": "number",
-          "example": 500000
-        },
         "email": {
           "type": "string",
-          "example": "example@gmail.com"
+          "example": "john.customer@gmail.com"
         },
         "residence_id": {},
         "room_id": {}

@@ -35,8 +35,14 @@ const FacilityModel = DBConn.define("facility", FacilityModelDefine, {
   },
 });
 
-FacilityModel.belongsTo(ResidenceRoomModel, { foreignKey: "room_id" });
-ResidenceRoomModel.hasMany(FacilityModel, { foreignKey: "room_id" });
+FacilityModel.belongsTo(ResidenceRoomModel, {
+  foreignKey: "room_id",
+  as: "facility_room",
+});
+ResidenceRoomModel.hasMany(FacilityModel, {
+  foreignKey: "room_id",
+  as: "facility_room",
+});
 
 delete FacilityModelDefine.id;
 delete FacilityModelDefine.slug;

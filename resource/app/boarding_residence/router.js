@@ -2,6 +2,7 @@ const controller = require("./controller");
 const router = require("express").Router();
 
 // BoardingResidence
+router.get("/owner", controller.indexOwnerBoardingResidence);
 router.get("/", controller.index);
 router.post("/", controller.createNewBoardingResidence);
 router.put("/:id", controller.updateBoardingResidence);
