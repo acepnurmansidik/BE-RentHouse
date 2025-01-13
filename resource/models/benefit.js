@@ -43,6 +43,9 @@ const BenefitModel = DBConn.define("benefit", BenefitModelDefine, {
   schema: "public",
   updatedAt: true,
   paranoid: true,
+  defaultScope: {
+    attributes: { exclude: ["createdAt", "updatedAt", "deletedAt"] },
+  },
 });
 
 // benefit to onboarding

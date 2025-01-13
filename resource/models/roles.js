@@ -29,6 +29,9 @@ const RolesModel = DBConn.define("role", RolesModelDefine, {
   createdAt: true,
   updatedAt: true,
   paranoid: true,
+  defaultScope: {
+    attributes: { exclude: ["createdAt", "updatedAt", "deletedAt"] },
+  },
 });
 
 delete RolesModelDefine.id;

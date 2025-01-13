@@ -44,6 +44,9 @@ const TestimonialModel = DBConn.define("testimonial", TestimonialModelDefine, {
   createdAt: true,
   updatedAt: true,
   paranoid: true,
+  defaultScope: {
+    attributes: { exclude: ["createdAt", "updatedAt", "deletedAt"] },
+  },
 });
 
 TestimonialModel.belongsTo(UserModel, { foreignKey: "user_id" });

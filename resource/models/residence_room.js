@@ -48,6 +48,9 @@ const ResidenceRoomModel = DBConn.define(
     createdAt: true,
     updatedAt: true,
     paranoid: true,
+    defaultScope: {
+      attributes: { exclude: ["createdAt", "updatedAt", "deletedAt"] },
+    },
   },
 );
 

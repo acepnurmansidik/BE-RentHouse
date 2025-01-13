@@ -1,4 +1,6 @@
+const { globalFunc } = require("../../helper/global-func");
 const { RolesModel } = require("../../models/roles");
+const { methodConstant } = require("../../utils/constanta");
 const { BadRequestError, NotFoundError } = require("../../utils/errors/index");
 
 const controller = {};
@@ -21,7 +23,7 @@ controller.index = async (req, res, next) => {
     const data = await RolesModel.findAll();
 
     // send response to client
-    return res.status(200).json({ status: 200, data });
+    return globalFunc.response({ res, method: methodConstant.GET, data });
   } catch (err) {
     next(err);
   }
@@ -51,10 +53,14 @@ controller.createNewRole = async (req, res, next) => {
     payload.slug = payload.name.toLowerCase().replace(/\s+/g, "-");
 
     // insert to database
-    const result = await RolesModel.create(payload);
+    await RolesModel.create(payload);
 
     // send response to client
-    return res.status(201).json({ status: 200, data: null });
+    return globalFunc.response({
+      res,
+      method: methodConstant.POST,
+      data: null,
+    });
   } catch (err) {
     next(err);
   }
@@ -96,13 +102,15 @@ controller.updateRole = async (req, res, next) => {
     if (isDuplicate)
       throw new BadRequestError(`Data with name '${payload.name}' is exist!`);
 
-    console.log(payload);
-
     // update data in database
     await RolesModel.update(payload, { where: { id } });
 
     // send response to client
-    return res.status(201).json({ status: 201, data: null });
+    return globalFunc.response({
+      res,
+      method: methodConstant.PUT,
+      data: null,
+    });
   } catch (err) {
     next(err);
   }
@@ -133,7 +141,11 @@ controller.deleteRole = async (req, res, next) => {
     await RolesModel.destroy({ where: { id } });
 
     // send response to client
-    return res.status(201).json({ status: 201, data: null });
+    return globalFunc.response({
+      res,
+      method: methodConstant.DELETE,
+      data: null,
+    });
   } catch (err) {
     next(err);
   }

@@ -5,6 +5,4 @@ const methodConstant = {
   DELETE: "DELETE",
 };
 
-module.exports = {
-  methodConstant,
-};
+module.exports = { methodConstant };

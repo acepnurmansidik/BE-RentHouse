@@ -87,6 +87,9 @@ const TransactionModel = DBConn.define("transaction", TransactionModelDefine, {
   createdAt: true,
   updatedAt: true,
   paranoid: true,
+  defaultScope: {
+    attributes: { exclude: ["createdAt", "updatedAt", "deletedAt"] },
+  },
 });
 
 TransactionModel.belongsTo(UserModel, { foreignKey: "user_id" });

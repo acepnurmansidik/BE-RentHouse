@@ -4,6 +4,8 @@ const ENV = require("../utils/config");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { UnauthenticatedError } = require("../utils/errors");
+const { StatusCodes } = require("http-status-codes");
+const { methodConstant } = require("../utils/constanta");
 
 const transporter = nodemailer.createTransport({
   host: ENV.emailHost,
@@ -161,6 +163,30 @@ globalFunc.QuerySearch = async (payload) => {
   }
 
   return result;
+};
+
+globalFunc.response = ({ res, method, data }) => {
+  let response = {
+    status_code: StatusCodes.OK,
+    message: "success",
+    data,
+  };
+
+  switch (method) {
+    case methodConstant.POST:
+      response.status_code = StatusCodes.CREATED;
+      response.message = "Data has been created";
+    case methodConstant.PUT:
+      response.message = "Data has been updated";
+    case methodConstant.DELETE:
+      response.message = "Data has been deleted";
+    case methodConstant.GET:
+      response.message = "Data has been retrieved";
+    default:
+      break;
+  }
+
+  return res.status(response.status_code).json(response);
 };
 
 module.exports = { globalFunc, verifyJwtToken };

@@ -32,6 +32,9 @@ const ImageModel = DBConn.define("image", ImageModelDefine, {
   createdAt: true,
   updatedAt: true,
   paranoid: true,
+  defaultScope: {
+    attributes: { exclude: ["createdAt", "updatedAt", "deletedAt"] },
+  },
 });
 
 ImageModel.belongsTo(ResidenceRoomModel, { foreignKey: "source_id" });

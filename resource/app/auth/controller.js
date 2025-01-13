@@ -27,7 +27,12 @@ controller.Register = async (req, res, next) => {
     const payload = req.body;
     payload.password = await globalFunc.hashPassword({ ...payload });
     const result = await UserModel.create(payload);
-    return res.status(200).json({ status: 200, result });
+
+    return globalFunc.response({
+      res,
+      method: methodConstant.GET,
+      data: result,
+    });
   } catch (err) {
     next(err);
   }

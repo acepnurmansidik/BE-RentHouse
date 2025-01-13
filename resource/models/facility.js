@@ -39,6 +39,9 @@ const FacilityModel = DBConn.define("facility", FacilityModelDefine, {
   createdAt: true,
   updatedAt: true,
   paranoid: true,
+  defaultScope: {
+    attributes: { exclude: ["createdAt", "updatedAt", "deletedAt"] },
+  },
 });
 
 FacilityModel.belongsTo(ResidenceRoomModel, { foreignKey: "room_id" });

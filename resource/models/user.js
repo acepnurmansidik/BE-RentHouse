@@ -48,6 +48,9 @@ const UserModel = DBConn.define("user", UserModelDefine, {
   createdAt: true,
   updatedAt: true,
   paranoid: true,
+  defaultScope: {
+    attributes: { exclude: ["createdAt", "updatedAt", "deletedAt"] },
+  },
 });
 
 // definisikan relasi

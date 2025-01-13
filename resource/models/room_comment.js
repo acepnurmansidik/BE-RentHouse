@@ -40,6 +40,9 @@ const RoomCommentModel = DBConn.define("room_comment", RoomCommentModelDefine, {
   createdAt: true,
   updatedAt: true,
   paranoid: true,
+  defaultScope: {
+    attributes: { exclude: ["createdAt", "updatedAt", "deletedAt"] },
+  },
 });
 
 RoomCommentModel.belongsTo(UserModel, { foreignKey: "user_id" });
