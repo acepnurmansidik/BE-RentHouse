@@ -7,7 +7,7 @@ const {
 
 const FacilityModelDefine = {
   id: {
-    type: DataTypes.UUIDV4,
+    type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true,
   },
@@ -23,7 +23,7 @@ const FacilityModelDefine = {
     defaultValue: "",
   },
   room_id: {
-    type: DataTypes.UUIDV4,
+    type: DataTypes.UUID,
     allowNull: false,
     references: {
       model: ResidenceRoomModel,
@@ -35,6 +35,7 @@ const FacilityModelDefine = {
 const FacilityModel = DBConn.define("facility", FacilityModelDefine, {
   timestamps: true,
   force: false,
+  schema: "public",
   createdAt: true,
   updatedAt: true,
   paranoid: true,

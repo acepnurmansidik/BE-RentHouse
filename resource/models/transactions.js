@@ -6,7 +6,7 @@ const { BoardingResidenceModel } = require("./boarding_residence");
 
 const TransactionModelDefine = {
   id: {
-    type: DataTypes.UUIDV4,
+    type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true,
   },
@@ -55,7 +55,7 @@ const TransactionModelDefine = {
     defaultValue: "",
   },
   user_id: {
-    type: DataTypes.UUIDV4,
+    type: DataTypes.UUID,
     allowNull: false,
     references: {
       model: UserModel,
@@ -63,7 +63,7 @@ const TransactionModelDefine = {
     },
   },
   residence_id: {
-    type: DataTypes.UUIDV4,
+    type: DataTypes.UUID,
     allowNull: false,
     references: {
       model: BoardingResidenceModel,
@@ -71,7 +71,7 @@ const TransactionModelDefine = {
     },
   },
   room_id: {
-    type: DataTypes.UUIDV4,
+    type: DataTypes.UUID,
     allowNull: false,
     references: {
       model: ResidenceRoomModel,
@@ -83,6 +83,7 @@ const TransactionModelDefine = {
 const TransactionModel = DBConn.define("transaction", TransactionModelDefine, {
   timestamps: true,
   force: false,
+  schema: "public",
   createdAt: true,
   updatedAt: true,
   paranoid: true,

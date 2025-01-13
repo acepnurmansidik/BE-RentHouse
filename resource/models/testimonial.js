@@ -5,7 +5,7 @@ const { UserModel } = require("./user");
 
 const TestimonialModelDefine = {
   id: {
-    type: DataTypes.UUIDV4,
+    type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true,
   },
@@ -20,7 +20,7 @@ const TestimonialModelDefine = {
     defaultValue: "",
   },
   user_id: {
-    type: DataTypes.UUIDV4,
+    type: DataTypes.UUID,
     allowNull: false,
     references: {
       model: UserModel,
@@ -28,7 +28,7 @@ const TestimonialModelDefine = {
     },
   },
   room_id: {
-    type: DataTypes.UUIDV4,
+    type: DataTypes.UUID,
     allowNull: false,
     references: {
       model: ResidenceRoomModel,
@@ -40,6 +40,7 @@ const TestimonialModelDefine = {
 const TestimonialModel = DBConn.define("testimonial", TestimonialModelDefine, {
   timestamps: true,
   force: false,
+  schema: "public",
   createdAt: true,
   updatedAt: true,
   paranoid: true,

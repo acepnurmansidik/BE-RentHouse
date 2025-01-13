@@ -5,7 +5,7 @@ const { CityModel } = require("./city");
 
 const BoardingResidenceModelDefine = {
   id: {
-    type: DataTypes.UUIDV4,
+    type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true,
   },
@@ -62,6 +62,7 @@ const BoardingResidenceModel = DBConn.define(
   {
     timestamps: true,
     force: false,
+    schema: "public",
     createdAt: true,
     updatedAt: true,
     paranoid: true,

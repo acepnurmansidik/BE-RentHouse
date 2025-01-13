@@ -4,7 +4,7 @@ const { RolesModel } = require("./roles");
 
 const UserModelDefine = {
   id: {
-    type: DataTypes.UUIDV4,
+    type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true,
   },
@@ -43,7 +43,7 @@ const UserModelDefine = {
 
 const UserModel = DBConn.define("user", UserModelDefine, {
   timestamps: true,
-  // schema: "setting",
+  schema: "public",
   force: false,
   createdAt: true,
   updatedAt: true,

@@ -3,7 +3,7 @@ const DBConn = require("../../db");
 
 const RolesModelDefine = {
   id: {
-    type: DataTypes.UUIDV4,
+    type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true,
   },
@@ -24,6 +24,7 @@ const RolesModelDefine = {
 const RolesModel = DBConn.define("role", RolesModelDefine, {
   timestamps: true,
   force: false,
+  schema: "public",
   createdAt: true,
   updatedAt: true,
   paranoid: true,

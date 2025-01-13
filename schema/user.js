@@ -1,4 +1,4 @@
-const { UserModelDefine } = require("../models/user");
+const { UserModelDefine } = require("../resource/models/user");
 
 const UserSchema = {
   BodyUserSchema: UserModelDefine,

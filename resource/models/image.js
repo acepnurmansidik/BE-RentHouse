@@ -4,7 +4,7 @@ const { ResidenceRoomModel } = require("./residence_room");
 
 const ImageModelDefine = {
   id: {
-    type: DataTypes.UUIDV4,
+    type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true,
   },
@@ -28,6 +28,7 @@ const ImageModelDefine = {
 const ImageModel = DBConn.define("image", ImageModelDefine, {
   timestamps: true,
   force: false,
+  schema: "public",
   createdAt: true,
   updatedAt: true,
   paranoid: true,

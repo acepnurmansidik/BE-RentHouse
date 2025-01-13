@@ -4,7 +4,7 @@ const { BoardingResidenceModel } = require("./boarding_residence");
 
 const ResidenceRoomModelDefine = {
   id: {
-    type: DataTypes.UUIDV4,
+    type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true,
   },
@@ -43,6 +43,7 @@ const ResidenceRoomModel = DBConn.define(
   ResidenceRoomModelDefine,
   {
     timestamps: true,
+    schema: "public",
     force: false,
     createdAt: true,
     updatedAt: true,

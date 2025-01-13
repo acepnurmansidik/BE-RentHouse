@@ -6,7 +6,7 @@ const { TestimonialModel } = require("./testimonial");
 
 const RoomCommentModelDefine = {
   id: {
-    type: DataTypes.UUIDV4,
+    type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true,
   },
@@ -16,7 +16,7 @@ const RoomCommentModelDefine = {
     defaultValue: "",
   },
   user_id: {
-    type: DataTypes.UUIDV4,
+    type: DataTypes.UUID,
     allowNull: false,
     references: {
       model: UserModel,
@@ -24,7 +24,7 @@ const RoomCommentModelDefine = {
     },
   },
   room_id: {
-    type: DataTypes.UUIDV4,
+    type: DataTypes.UUID,
     allowNull: false,
     references: {
       model: ResidenceRoomModel,
@@ -36,6 +36,7 @@ const RoomCommentModelDefine = {
 const RoomCommentModel = DBConn.define("room_comment", RoomCommentModelDefine, {
   timestamps: true,
   force: false,
+  schema: "public",
   createdAt: true,
   updatedAt: true,
   paranoid: true,

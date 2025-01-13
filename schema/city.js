@@ -1,4 +1,4 @@
-const { CityModelDefine } = require("../models/city");
+const { CityModelDefine } = require("../resource/models/city");
 
 const CitySchema = {
   BodyCitySchema: CityModelDefine,

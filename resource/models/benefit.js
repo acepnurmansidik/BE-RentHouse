@@ -5,7 +5,7 @@ const { BoardingResidenceModel } = require("./boarding_residence");
 
 const BenefitModelDefine = {
   id: {
-    type: DataTypes.UUIDV4,
+    type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true,
   },
@@ -23,11 +23,11 @@ const BenefitModelDefine = {
   description: {
     type: DataTypes.TEXT,
     allowNull: false,
-    unique: true,
+    unique: false,
     defaultValue: "",
   },
   room_id: {
-    type: DataTypes.UUIDV4,
+    type: DataTypes.UUID,
     allowNull: false,
     references: {
       model: ResidenceRoomModel,
@@ -40,6 +40,7 @@ const BenefitModel = DBConn.define("benefit", BenefitModelDefine, {
   timestamps: true,
   force: false,
   createdAt: true,
+  schema: "public",
   updatedAt: true,
   paranoid: true,
 });

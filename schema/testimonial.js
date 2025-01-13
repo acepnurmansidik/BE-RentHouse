@@ -1,4 +1,4 @@
-const { TestimonialModelDefine } = require("../models/testimonial");
+const { TestimonialModelDefine } = require("../resource/models/testimonial");
 
 const TestimonialSchema = {
   BodyTestimonialSchema: TestimonialModelDefine,

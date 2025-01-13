@@ -1,8 +1,8 @@
 const {
   BoardingResidenceModelDefine,
-} = require("../models/boarding_residence");
-const { FacilityModelDefine } = require("../models/facility");
-const { BenefitModelDefine } = require("../models/benefit");
+} = require("../resource/models/boarding_residence");
+const { FacilityModelDefine } = require("../resource/models/facility");
+const { BenefitModelDefine } = require("../resource/models/benefit");
 
 const BoardingResidenceSchema = {
   BodyBoardingResidenceSchema: {
