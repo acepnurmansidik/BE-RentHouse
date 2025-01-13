@@ -14,11 +14,6 @@ const BenefitModelDefine = {
     allowNull: false,
     defaultValue: "",
   },
-  status: {
-    type: DataTypes.BOOLEAN,
-    allowNull: false,
-    defaultValue: true,
-  },
   description: {
     type: DataTypes.TEXT,
     allowNull: false,
@@ -48,8 +43,8 @@ const BenefitModel = DBConn.define("benefit", BenefitModelDefine, {
 });
 
 // benefit to onboarding
-BoardingResidenceModel.belongsTo(BenefitModel, { foreignKey: "room_id" });
-BenefitModel.hasMany(BoardingResidenceModel, { foreignKey: "room_id" });
+BenefitModel.belongsTo(BoardingResidenceModel, { foreignKey: "room_id" });
+BoardingResidenceModel.hasMany(BenefitModel, { foreignKey: "room_id" });
 
 delete BenefitModelDefine.id;
 Object.keys(BenefitModelDefine).map((item) => {

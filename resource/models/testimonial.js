@@ -14,6 +14,11 @@ const TestimonialModelDefine = {
     allowNull: false,
     defaultValue: 1,
   },
+  status: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
+  },
   comment: {
     type: DataTypes.TEXT,
     allowNull: false,

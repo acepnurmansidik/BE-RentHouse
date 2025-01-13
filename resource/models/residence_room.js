@@ -16,7 +16,7 @@ const ResidenceRoomModelDefine = {
   price_per_month: {
     type: DataTypes.INTEGER,
     allowNull: false,
-    defaultValue: 0,
+    defaultValue: 1,
   },
   is_available: {
     type: DataTypes.BOOLEAN,
@@ -26,7 +26,7 @@ const ResidenceRoomModelDefine = {
   total_room: {
     type: DataTypes.STRING,
     allowNull: false,
-    defaultValue: 0,
+    defaultValue: 1,
   },
   residence_id: {
     type: DataTypes.UUID,

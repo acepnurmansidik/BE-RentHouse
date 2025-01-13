@@ -16,11 +16,6 @@ const FacilityModelDefine = {
     allowNull: false,
     defaultValue: "",
   },
-  status: {
-    type: DataTypes.BOOLEAN,
-    allowNull: false,
-    defaultValue: true,
-  },
   room_id: {
     type: DataTypes.UUID,
     allowNull: false,

@@ -83,6 +83,7 @@ UserModel.hasMany(BoardingResidenceModel, { foreignKey: "owner_id" });
 delete BoardingResidenceModelDefine.id;
 delete BoardingResidenceModelDefine.slug;
 delete BoardingResidenceModelDefine.thumbnail;
+delete BoardingResidenceModelDefine.owner_id;
 Object.keys(BoardingResidenceModelDefine).map((item) => {
   BoardingResidenceModelDefine[item] = BoardingResidenceModelDefine[item][
     "defaultValue"

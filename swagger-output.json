@@ -395,6 +395,74 @@
           }
         ]
       }
+    },
+    "/boarding-residence/{id}": {
+      "put": {
+        "tags": [
+          "MASTER BOARDING RESIDENCE"
+        ],
+        "summary": "role user",
+        "description": "every user has role for access",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "Create role",
+            "schema": {
+              "$ref": "#/definitions/BodyBoardingResidenceSchema"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "MASTER BOARDING RESIDENCE"
+        ],
+        "summary": "role user",
+        "description": "every user has role for access",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "Create role",
+            "schema": {
+              "$ref": "#/definitions/BodyBoardingResidenceSchema"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
     }
   },
   "definitions": {
@@ -444,12 +512,18 @@
             "type": "object",
             "properties": {
               "room_type": {},
-              "price_per_month": {},
+              "price_per_month": {
+                "type": "number",
+                "example": 1
+              },
               "is_available": {
                 "type": "boolean",
                 "example": true
               },
-              "total_room": {},
+              "total_room": {
+                "type": "number",
+                "example": 1
+              },
               "facility": {
                 "type": "array",
                 "items": {
