@@ -37,17 +37,26 @@ controller.index = async (req, res, next) => {
 
     // get data from database
     const result = await BoardingResidenceModel.findAll({
-      // where: { owner_id: req.login.id },
+      where: {},
+      attributes: [
+        "id",
+        "name",
+        "description",
+        [fn("CONCAT", ENV.urlImage, col("thumbnail")), "thumbnail"],
+        "address",
+        "category",
+      ],
       include: [
         {
           model: CityModel,
-          attributes: ["name"],
+          attributes: ["name", "id"],
           as: "city",
         },
+
         {
           model: UserModel,
           as: "owner",
-          attributes: ["username"],
+          attributes: ["username", "id"],
         },
         {
           model: ResidenceRoomModel,
@@ -60,6 +69,15 @@ controller.index = async (req, res, next) => {
             {
               model: BenefitModel,
               as: "benefit_room",
+            },
+            {
+              model: ImageModel,
+              as: "room_images",
+              where: { status: true },
+              attributes: [
+                "id",
+                [fn("CONCAT", ENV.urlImage, col("path")), "name"],
+              ],
             },
           ],
         },
@@ -98,16 +116,25 @@ controller.indexOwnerBoardingResidence = async (req, res, next) => {
     // get data from database
     const result = await BoardingResidenceModel.findAll({
       where: { owner_id: req.login.id },
+      attributes: [
+        "id",
+        "name",
+        "description",
+        [fn("CONCAT", ENV.urlImage, col("thumbnail")), "thumbnail"],
+        "address",
+        "category",
+      ],
       include: [
         {
           model: CityModel,
-          attributes: ["name"],
+          attributes: ["name", "id"],
           as: "city",
         },
+
         {
           model: UserModel,
           as: "owner",
-          attributes: ["username"],
+          attributes: ["username", "id"],
         },
         {
           model: ResidenceRoomModel,
@@ -179,10 +206,22 @@ controller.createNewBoardingResidence = async (req, res, next) => {
 
     // insert to database
     delete payload.rooms;
+    const thumbnail = await ImageModel.findOne({
+      where: { id: payload.thumbnail },
+      raw: true,
+      transaction,
+    });
+
+    payload.thumbnail = thumbnail.path;
     const dBoardResidence = await BoardingResidenceModel.create(payload, {
       raw: true,
       transaction,
     });
+
+    await ImageModel.update(
+      { source_id: dBoardResidence.id, status: true },
+      { where: { id: thumbnail.id } },
+    );
 
     for (let room of rooms) {
       let dRoom = await ResidenceRoomModel.create(
@@ -245,14 +284,27 @@ controller.updateBoardingResidence = async (req, res, next) => {
       return char.toUpperCase();
     });
 
+    await ImageModel.update(
+      { status: false },
+      {
+        where: { source_id: id },
+        transaction,
+      },
+    );
+
     // check data in database
-    const [isAvailable, idDuplicate, dRooms] = await Promise.all([
+    const [isAvailable, idDuplicate, dRooms, thumbnail] = await Promise.all([
       BoardingResidenceModel.findOne({ where: { id } }),
       BoardingResidenceModel.findOne({ where: { slug: payload.slug } }),
       ResidenceRoomModel.findAll({
         where: { residence_id: id },
         attributes: ["id"],
         raw: true,
+      }),
+      await ImageModel.findOne({
+        where: { id: payload.thumbnail },
+        raw: true,
+        transaction,
       }),
     ]);
 
@@ -266,6 +318,7 @@ controller.updateBoardingResidence = async (req, res, next) => {
 
     // delete all data room, facility and benefit
     const newDRoom = dRooms.map((item) => item.id);
+    payload.thumbnail = thumbnail.path;
     await Promise.all([
       ResidenceRoomModel.destroy({ where: { residence_id: id }, transaction }),
       FacilityModel.destroy({
@@ -280,6 +333,10 @@ controller.updateBoardingResidence = async (req, res, next) => {
       ImageModel.update(
         { status: false },
         { where: { source_id: { [Op.in]: newDRoom } }, transaction },
+      ),
+      ImageModel.update(
+        { status: true, source_id: id },
+        { where: { id: thumbnail.id }, transaction },
       ),
     ]);
 
@@ -344,6 +401,7 @@ controller.deleteBoardingResidence = async (req, res, next) => {
 
     // delete all data room, facility and benefit
     const newDRoom = dRooms.map((item) => item.id);
+    newDRoom.push(id);
     await Promise.all([
       ResidenceRoomModel.destroy({ where: { residence_id: id }, transaction }),
       FacilityModel.destroy({

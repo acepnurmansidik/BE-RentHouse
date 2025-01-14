@@ -39,14 +39,10 @@ const ImageModel = DBConn.define("image", ImageModelDefine, {
   updatedAt: true,
   paranoid: true,
   defaultScope: {
-    attributes: { exclude: ["createdAt", "updatedAt", "deletedAt"] },
+    attributes: { exclude: ["createdAt", "updatedAt", "deletedAt", "status"] },
   },
 });
 
-ImageModel.belongsTo(ResidenceRoomModel, {
-  foreignKey: "source_id",
-  as: "room_images",
-});
 ResidenceRoomModel.hasMany(ImageModel, {
   foreignKey: "source_id",
   as: "room_images",

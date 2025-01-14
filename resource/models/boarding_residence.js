@@ -26,7 +26,7 @@ const BoardingResidenceModelDefine = {
   },
   thumbnail: {
     type: DataTypes.TEXT,
-    defaultValue: "",
+    defaultValue: "af03a4eb-7a79-4f4c-9aee-2be12dcea9ab",
   },
   address: {
     type: DataTypes.TEXT,
@@ -94,7 +94,6 @@ UserModel.hasMany(BoardingResidenceModel, {
 
 delete BoardingResidenceModelDefine.id;
 delete BoardingResidenceModelDefine.slug;
-delete BoardingResidenceModelDefine.thumbnail;
 delete BoardingResidenceModelDefine.owner_id;
 Object.keys(BoardingResidenceModelDefine).map((item) => {
   BoardingResidenceModelDefine[item] = BoardingResidenceModelDefine[item][
