@@ -1,8 +1,6 @@
 const {
   BoardingResidenceModelDefine,
 } = require("../resource/models/boarding_residence");
-const { FacilityModelDefine } = require("../resource/models/facility");
-const { BenefitModelDefine } = require("../resource/models/benefit");
 const {
   ResidenceRoomModelDefine,
 } = require("../resource/models/residence_room");
@@ -24,9 +22,9 @@ const BoardingResidenceSchema = {
             description: "bisa refund kapan saja tanpa biaya admin",
           },
         ],
+        image: ["90798ede-1c50-4e93-8778-49efe7625cbf"],
       },
     ],
-    // images: [],
   },
 };
 

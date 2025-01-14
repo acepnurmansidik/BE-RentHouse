@@ -5,3 +5,4 @@ Dockerfile
 .env
 .env.development
 .env.production
+/uploads

@@ -20,6 +20,7 @@ const ENV = {
   emailSender: process.env.SOURCE_EMAIL,
   emailPassword: process.env.PASSWORD_EMAIL,
   saltPassword: process.env.SALT,
+  urlImage: `${process.env.URL_API}${process.env.DB_HOST}:${process.env.DB_PORT}/`,
 };
 
 module.exports = ENV;

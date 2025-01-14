@@ -6,6 +6,7 @@ const jwt = require("jsonwebtoken");
 const { UnauthenticatedError } = require("../utils/errors");
 const { StatusCodes } = require("http-status-codes");
 const { methodConstant } = require("../utils/constanta");
+const multer = require("multer");
 
 const transporter = nodemailer.createTransport({
   host: ENV.emailHost,
@@ -198,6 +199,10 @@ globalFunc.generateTokenCode = async () => {
   }
 
   return token.join("");
+};
+
+globalFunc.multer = () => {
+  const app = multer({ dest: "uploads/" });
 };
 
 module.exports = { globalFunc, verifyJwtToken };

@@ -8,10 +8,12 @@ const { RoomCommentModel } = require("../../models/room_comment");
 const { BenefitModel } = require("../../models/benefit");
 const { methodConstant } = require("../../utils/constanta");
 const { NotFoundError } = require("../../utils/errors");
-const { Op } = require("sequelize");
+const { Op, fn, col } = require("sequelize");
 const { TransactionModel } = require("../../models/transactions");
 const { CityModel } = require("../../models/city");
 const { UserModel } = require("../../models/user");
+const { ImageModel } = require("../../models/image");
+const ENV = require("../../utils/config");
 const controller = {};
 
 // RESIDENCES ===========================================================================
@@ -119,6 +121,15 @@ controller.indexOwnerBoardingResidence = async (req, res, next) => {
               model: BenefitModel,
               as: "benefit_room",
             },
+            {
+              model: ImageModel,
+              as: "room_images",
+              where: { status: true },
+              attributes: [
+                "id",
+                [fn("CONCAT", ENV.urlImage, col("path")), "name"],
+              ],
+            },
           ],
         },
       ],
@@ -170,6 +181,7 @@ controller.createNewBoardingResidence = async (req, res, next) => {
     delete payload.rooms;
     const dBoardResidence = await BoardingResidenceModel.create(payload, {
       raw: true,
+      transaction,
     });
 
     for (let room of rooms) {
@@ -187,6 +199,10 @@ controller.createNewBoardingResidence = async (req, res, next) => {
 
       await FacilityModel.bulkCreate(room.facility, { transaction });
       await BenefitModel.bulkCreate(room.benefit, { transaction });
+      await ImageModel.update(
+        { source_id: dRoom.id, status: true },
+        { where: { id: { [Op.in]: room.image } }, transaction },
+      );
     }
 
     // send response to client
@@ -243,7 +259,7 @@ controller.updateBoardingResidence = async (req, res, next) => {
     // send response not found when data not exist
     if (!isAvailable) throw new NotFoundError(`Data with id '${id}' not found`);
     // send bad request when data already exist
-    if (!idDuplicate)
+    if (idDuplicate)
       throw new NotFoundError(
         `Data with name '${payload.name}' is already exist`,
       );
@@ -261,6 +277,10 @@ controller.updateBoardingResidence = async (req, res, next) => {
         transaction,
       }),
       BoardingResidenceModel.update(payload, { where: { id }, transaction }),
+      ImageModel.update(
+        { status: false },
+        { where: { source_id: { [Op.in]: newDRoom } }, transaction },
+      ),
     ]);
 
     for (let room of rooms) {
@@ -278,6 +298,10 @@ controller.updateBoardingResidence = async (req, res, next) => {
 
       await FacilityModel.bulkCreate(room.facility, { transaction });
       await BenefitModel.bulkCreate(room.benefit, { transaction });
+      await ImageModel.update(
+        { source_id: dRoom.id, status: true },
+        { where: { id: { [Op.in]: room.image } }, transaction },
+      );
     }
 
     // send response to client
@@ -331,6 +355,10 @@ controller.deleteBoardingResidence = async (req, res, next) => {
         transaction,
       }),
       BoardingResidenceModel.destroy({ where: { id }, transaction }),
+      ImageModel.update(
+        { status: false },
+        { where: { source_id: { [Op.in]: newDRoom } }, transaction },
+      ),
     ]);
 
     // send response to client

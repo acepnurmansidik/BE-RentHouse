@@ -1,6 +1,7 @@
 const { DataTypes } = require("sequelize");
 const DBConn = require("../../db");
 const { ResidenceRoomModel } = require("./residence_room");
+const { BoardingResidenceModel } = require("./boarding_residence");
 
 const ImageModelDefine = {
   id: {
@@ -8,7 +9,7 @@ const ImageModelDefine = {
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true,
   },
-  name: {
+  path: {
     type: DataTypes.STRING,
     allowNull: false,
     defaultValue: "",
@@ -42,8 +43,14 @@ const ImageModel = DBConn.define("image", ImageModelDefine, {
   },
 });
 
-ImageModel.belongsTo(ResidenceRoomModel, { foreignKey: "source_id" });
-ResidenceRoomModel.hasMany(ImageModel, { foreignKey: "source_id" });
+ImageModel.belongsTo(ResidenceRoomModel, {
+  foreignKey: "source_id",
+  as: "room_images",
+});
+ResidenceRoomModel.hasMany(ImageModel, {
+  foreignKey: "source_id",
+  as: "room_images",
+});
 
 delete ImageModelDefine.id;
 Object.keys(ImageModelDefine).map((item) => {

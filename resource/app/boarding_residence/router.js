@@ -1,9 +1,10 @@
+const { uploadFileImageConfig } = require("../../middleware/multer");
 const controller = require("./controller");
 const router = require("express").Router();
 
 // BoardingResidence
-router.get("/owner", controller.indexOwnerBoardingResidence);
 router.get("/", controller.index);
+router.get("/owner", controller.indexOwnerBoardingResidence);
 router.post("/", controller.createNewBoardingResidence);
 router.put("/:id", controller.updateBoardingResidence);
 router.delete("/:id", controller.deleteBoardingResidence);

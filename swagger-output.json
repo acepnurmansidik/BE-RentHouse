@@ -22,7 +22,7 @@
     }
   },
   "paths": {
-    "/singup": {
+    "/api/v1/singup": {
       "post": {
         "tags": [
           "AUTH"
@@ -51,7 +51,7 @@
         ]
       }
     },
-    "/signin": {
+    "/api/v1/signin": {
       "post": {
         "tags": [
           "AUTH"
@@ -75,7 +75,42 @@
         }
       }
     },
-    "/role/": {
+    "/api/v1/upload-file": {
+      "post": {
+        "tags": [
+          "UPLOAD IMAGES"
+        ],
+        "summary": "this API for upload images",
+        "description": "untuk referensi group",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [
+          {
+            "name": "proofs",
+            "in": "formData",
+            "type": "array",
+            "required": true,
+            "description": "Some description...",
+            "collectionFormat": "multi",
+            "items": {
+              "type": "file"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/role/": {
       "get": {
         "tags": [
           "MASTER ROLE"
@@ -147,7 +182,7 @@
         ]
       }
     },
-    "/role/{id}": {
+    "/api/v1/role/{id}": {
       "put": {
         "tags": [
           "MASTER ROLE"
@@ -217,7 +252,7 @@
         ]
       }
     },
-    "/city/": {
+    "/api/v1/city/": {
       "get": {
         "tags": [
           "MASTER CITY"
@@ -296,7 +331,7 @@
         ]
       }
     },
-    "/city/{id}": {
+    "/api/v1/city/{id}": {
       "put": {
         "tags": [
           "MASTER CITY"
@@ -374,52 +409,7 @@
         ]
       }
     },
-    "/boarding-residence/owner": {
-      "get": {
-        "tags": [
-          "MASTER BOARDING RESIDENCE"
-        ],
-        "summary": "role user",
-        "description": "every user has role for access",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "page",
-            "default": "1",
-            "description": "Search by type",
-            "in": "query",
-            "type": "string"
-          },
-          {
-            "name": "limit",
-            "default": "10",
-            "description": "Search by type",
-            "in": "query",
-            "type": "string"
-          },
-          {
-            "name": "owner_id",
-            "in": "query",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ]
-      }
-    },
-    "/boarding-residence/": {
+    "/api/v1/boarding-residence/": {
       "get": {
         "tags": [
           "MASTER BOARDING RESIDENCE"
@@ -496,7 +486,52 @@
         ]
       }
     },
-    "/boarding-residence/{id}": {
+    "/api/v1/boarding-residence/owner": {
+      "get": {
+        "tags": [
+          "MASTER BOARDING RESIDENCE"
+        ],
+        "summary": "role user",
+        "description": "every user has role for access",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "default": "1",
+            "description": "Search by type",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "default": "10",
+            "description": "Search by type",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "owner_id",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/boarding-residence/{id}": {
       "put": {
         "tags": [
           "MASTER BOARDING RESIDENCE"
@@ -566,7 +601,7 @@
         ]
       }
     },
-    "/boarding-residence/comments": {
+    "/api/v1/boarding-residence/comments": {
       "post": {
         "tags": [
           "COMMENTS BOARDING RESIDENCE"
@@ -600,7 +635,7 @@
         ]
       }
     },
-    "/boarding-residence/comments/{id}": {
+    "/api/v1/boarding-residence/comments/{id}": {
       "put": {
         "tags": [
           "COMMENTS BOARDING RESIDENCE"
@@ -670,7 +705,7 @@
         ]
       }
     },
-    "/boarding-residence/testimonial/{id}": {
+    "/api/v1/boarding-residence/testimonial/{id}": {
       "put": {
         "tags": [
           "TESTIMONIAL BOARDING RESIDENCE"
@@ -710,7 +745,7 @@
         ]
       }
     },
-    "/boarding-residence/trx": {
+    "/api/v1/boarding-residence/trx": {
       "post": {
         "tags": [
           "TRANSACTION"
@@ -744,7 +779,7 @@
         ]
       }
     },
-    "/boarding-residence/trx/{id}": {
+    "/api/v1/boarding-residence/trx/{id}": {
       "put": {
         "tags": [
           "TRANSACTION"
@@ -894,6 +929,15 @@
                     }
                   }
                 }
+              },
+              "image": {
+                "type": "array",
+                "example": [
+                  "90798ede-1c50-4e93-8778-49efe7625cbf"
+                ],
+                "items": {
+                  "type": "string"
+                }
               }
             }
           }
@@ -926,7 +970,7 @@
         },
         "start_date": {
           "type": "number",
-          "example": 1736779216987
+          "example": 1736824971791
         },
         "name": {
           "type": "string",

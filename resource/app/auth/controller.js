@@ -1,6 +1,7 @@
 const { globalFunc } = require("../../helper/global-func");
 const { UserModel } = require("../../models/user");
 const { BadRequestError } = require("../../utils/errors/index");
+const { ImageModel } = require("../../models/image");
 const { methodConstant } = require("../../utils/constanta");
 
 const controller = {};
@@ -71,6 +72,46 @@ controller.Login = async (req, res, next) => {
       res,
       method: methodConstant.POST,
       data: result,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+controller.uploadFile = async (req, res, next) => {
+  /*
+    #swagger.security = [{
+      "bearerAuth": []
+    }]
+  */
+  /*
+    #swagger.tags = ['UPLOAD IMAGES']
+    #swagger.summary = 'this API for upload images'
+    #swagger.description = 'untuk referensi group'
+    #swagger.consumes = ['multipart/form-data']
+    #swagger.parameters['proofs'] = {
+      in: 'formData',
+      type: 'array',
+      required: true,
+      description: 'Some description...',
+      collectionFormat: 'multi',
+      items: { type: 'file' }
+    }
+  */
+  try {
+    const _tempID = [];
+    // loop every file, then insert to array
+    const fileResult = await ImageModel.bulkCreate(req.files, {
+      returning: true,
+    });
+    for (let file of fileResult) {
+      _tempID.push(file.id);
+    }
+
+    return globalFunc.response({
+      res,
+      method: methodConstant.POST,
+      data: _tempID,
     });
   } catch (err) {
     next(err);
